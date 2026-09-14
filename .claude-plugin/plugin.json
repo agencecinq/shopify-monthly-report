@@ -1,0 +1,21 @@
+{
+  "name": "shopify-monthly-report",
+  "version": "1.0.0",
+  "description": "Builds a complete monthly Shopify performance report as a PowerPoint deck in the store's own colours, with a 90-day plan of measured targets.",
+  "author": {
+    "name": "Agence CINQ",
+    "url": "https://agencecinq.com"
+  },
+  "homepage": "https://github.com/agencecinq/shopify-monthly-report",
+  "repository": "https://github.com/agencecinq/shopify-monthly-report",
+  "license": "MIT",
+  "keywords": [
+    "shopify",
+    "reporting",
+    "ecommerce",
+    "powerpoint",
+    "analytics",
+    "claude",
+    "plugin"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "_readme": "Every key is optional. A key left out is taken from the Shopify theme. Rename to config.json and pass it with --config.",
+  "agency": null,
+  "_agency": "Your agency or company name. When set, it appears discreetly in the slide footer. Leave null for an unbranded report.",
+  "lang": "en",
+  "_lang": "Report language. Ships with en and fr; see the i18n folder.",
+  "brand": {
+    "_bg": "Slide background. Leave null to take the theme's.",
+    "bg": null,
+    "_ink": "Main text colour.",
+    "ink": null,
+    "_accent": "Primary brand colour, used as fill and on the cover.",
+    "accent": null,
+    "_accent2": "Supporting colour, used as the second chart series.",
+    "accent2": null,
+    "_font_heading": "Heading font. Only name a brand font if the person opening the deck has it installed, otherwise PowerPoint substitutes it and the layout shifts.",
+    "font_heading": null,
+    "_font_body": "Body font. Same caveat.",
+    "font_body": null
+  }
+}

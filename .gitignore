@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.pptx
+*.pdf
+*.plugin
+.DS_Store
+.venv/
+build/
+dist/
+report.json
+config.json
+plan.json
+settings_data.json
+logo.png

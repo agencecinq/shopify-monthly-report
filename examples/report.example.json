@@ -1,0 +1,781 @@
+{
+ "meta": {
+  "shop_name": "Marlow Goods",
+  "shop_domain": "www.marlowgoods.com",
+  "currency": "EUR",
+  "lang": "en",
+  "period_label": "August 2026",
+  "period_start": "2026-08-01",
+  "period_end": "2026-08-31",
+  "generated_on": "14 September 2026",
+  "agency": null,
+  "comparison_labels": {
+   "previous_period": "July 2026",
+   "previous_year": "August 2025"
+  },
+  "comparison_sentence": "Compared with July 2026 and August 2025"
+ },
+ "profile": {
+  "catalogue": {
+   "active_products": 24,
+   "product_lines": 3,
+   "variants_per_product": "size / colour"
+  },
+  "model": {
+   "channels": [
+    "Online Store",
+    "Draft Orders",
+    "Faire"
+   ],
+   "subscriptions": false,
+   "locations": 1,
+   "billing_countries": 6
+  },
+  "driver": "acquisition",
+  "cycle": "durable goods, low repeat purchase expected",
+  "seasonal": true,
+  "summary": "Single-category leather goods brand, narrow catalogue declined in colours, mostly domestic sales through the online store, with a wholesale channel alongside."
+ },
+ "context": {
+  "audience": "founder",
+  "activity": "Leather bags and small goods, sold direct in the UK and Ireland.",
+  "annual_revenue_target": 480000,
+  "cost_of_goods": "partial",
+  "acceptable_return_rate": 0.08,
+  "excluded_channels": []
+ },
+ "ytd": {
+  "value": 268400.0,
+  "target": 480000,
+  "months_elapsed": 8
+ },
+ "kpis": [
+  {
+   "key": "total_sales",
+   "label": "Revenue",
+   "value": 42000.0,
+   "format": "money",
+   "compare": {
+    "previous_period": 46800.0,
+    "previous_year": 31500.0
+   }
+  },
+  {
+   "key": "orders",
+   "label": "Orders",
+   "value": 260,
+   "format": "number",
+   "compare": {
+    "previous_period": 291,
+    "previous_year": 198
+   }
+  },
+  {
+   "key": "aov",
+   "label": "Average order value",
+   "value": 161.54,
+   "format": "money",
+   "compare": {
+    "previous_period": 160.82,
+    "previous_year": 159.09
+   }
+  },
+  {
+   "key": "cr",
+   "label": "Conversion rate",
+   "value": 0.0145,
+   "format": "percent",
+   "compare": {
+    "previous_period": 0.0172
+   }
+  }
+ ],
+ "essentials_notes": [
+  "Revenue falls 10.3% vs July 2026 and rises 33.3% vs August 2025.",
+  "Traffic rises 9.1% while conversion moves from 1.72% to 1.45%.",
+  "Refunds account for 4,500 EUR, or 10.0% of gross sales."
+ ],
+ "sessions_compare": {
+  "value": 17900,
+  "previous_period": 16400,
+  "previous_year": 12100
+ },
+ "timeseries": {
+  "labels": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15",
+   "16",
+   "17",
+   "18",
+   "19",
+   "20",
+   "21",
+   "22",
+   "23",
+   "24",
+   "25",
+   "26",
+   "27",
+   "28",
+   "29",
+   "30",
+   "31"
+  ],
+  "series": [
+   {
+    "name": "August 2026",
+    "values": [
+     1646.45,
+     1490.76,
+     1940.84,
+     1420.19,
+     1837.29,
+     1684.12,
+     1407.2,
+     1811.69,
+     1388.75,
+     1745.28,
+     1417.87,
+     -243.36,
+     1737.07,
+     2099.17,
+     1466.42,
+     1555.92,
+     1919.69,
+     2207.94,
+     1874.39,
+     1712.01,
+     2233.63,
+     1396.92,
+     2127.62,
+     1615.65,
+     -195.17,
+     1461.01,
+     1632.63,
+     2089.51,
+     1517.65,
+     1878.44,
+     1930.02
+    ]
+   },
+   {
+    "name": "July 2026",
+    "values": [
+     1826.54,
+     1975.58,
+     1563.37,
+     1560.66,
+     1685.06,
+     2088.34,
+     1873.45,
+     1777.03,
+     2007.73,
+     1895.21,
+     1764.8,
+     2185.22,
+     2104.15,
+     1717.48,
+     1998.26,
+     1956.42,
+     2253.87,
+     2130.03,
+     1754.75,
+     2343.15,
+     1610.36,
+     1865.4,
+     2153.57,
+     1639.19,
+     1925.62,
+     1543.33,
+     2077.98,
+     2159.89,
+     1997.07,
+     2254.16,
+     1776.69
+    ]
+   }
+  ],
+  "caption": "Daily revenue, taxes and shipping included."
+ },
+ "funnel": {
+  "sessions": 17900,
+  "cart": 690,
+  "checkout": 430,
+  "purchase": 232
+ },
+ "traffic_sources": [
+  {
+   "label": "Direct or unidentified",
+   "orders": 148,
+   "sales": 24100.0
+  },
+  {
+   "label": "Search",
+   "orders": 71,
+   "sales": 11400.0
+  },
+  {
+   "label": "Social",
+   "orders": 28,
+   "sales": 4300.0
+  },
+  {
+   "label": "Email",
+   "orders": 13,
+   "sales": 2200.0
+  }
+ ],
+ "channels": [
+  {
+   "label": "Online store",
+   "orders": 232,
+   "sales": 36100.0,
+   "online": true
+  },
+  {
+   "label": "Manual orders",
+   "orders": 19,
+   "sales": 4100.0
+  },
+  {
+   "label": "Faire",
+   "orders": 9,
+   "sales": 1800.0
+  }
+ ],
+ "customers": {
+  "new": 201,
+  "returning": 52,
+  "total": 253,
+  "returning_rate": 0.2055,
+  "note": "On a durable product, a buyer does not renew this purchase in the short term."
+ },
+ "margin": {
+  "gross_profit": 21400.0,
+  "cogs": 16900.0,
+  "net_sales": 38300.0,
+  "margin_rate": 0.5587,
+  "compare_margin_rate": 0.572,
+  "incomplete": "Cost of goods is filled in on 34 of 41 products."
+ },
+ "sales_detail": {
+  "gross_sales": 45000.0,
+  "discounts": -2200.0,
+  "sales_reversals": -4500.0,
+  "net_sales": 38300.0,
+  "shipping_charges": 700.0,
+  "taxes": 3000.0,
+  "total_sales": 42000.0,
+  "compare": {
+   "gross_sales": 48900.0,
+   "discounts": -1900.0,
+   "sales_reversals": -3800.0,
+   "net_sales": 43200.0,
+   "shipping_charges": 780.0,
+   "taxes": 3400.0,
+   "total_sales": 46800.0
+  }
+ },
+ "top_products": [
+  {
+   "label": "Weekender Bag",
+   "sales": 12400.0,
+   "orders": 62
+  },
+  {
+   "label": "Field Satchel",
+   "sales": 8900.0,
+   "orders": 41
+  },
+  {
+   "label": "Card Holder",
+   "sales": 5100.0,
+   "orders": 88
+  },
+  {
+   "label": "Belt, Bridle Leather",
+   "sales": 4300.0,
+   "orders": 57
+  },
+  {
+   "label": "Laptop Sleeve",
+   "sales": 3800.0,
+   "orders": 29
+  },
+  {
+   "label": "Key Fob",
+   "sales": 2100.0,
+   "orders": 63
+  },
+  {
+   "label": "Travel Wallet",
+   "sales": 1900.0,
+   "orders": 18
+  },
+  {
+   "label": "Luggage Tag",
+   "sales": 1400.0,
+   "orders": 44
+  },
+  {
+   "label": "Notebook Cover",
+   "sales": 1200.0,
+   "orders": 16
+  },
+  {
+   "label": "Coin Pouch",
+   "sales": 900.0,
+   "orders": 31
+  }
+ ],
+ "categories": [
+  {
+   "label": "Bags",
+   "sales": 28900.0,
+   "orders": 131
+  },
+  {
+   "label": "Small goods",
+   "sales": 11600.0,
+   "orders": 240
+  },
+  {
+   "label": "Belts",
+   "sales": 4300.0,
+   "orders": 57
+  }
+ ],
+ "variants": [
+  {
+   "label": "Weekender Bag / Tan",
+   "sales": 6200.0
+  },
+  {
+   "label": "Weekender Bag / Black",
+   "sales": 4100.0
+  },
+  {
+   "label": "Field Satchel / Chestnut",
+   "sales": 3900.0
+  },
+  {
+   "label": "Card Holder / Tan",
+   "sales": 2400.0
+  },
+  {
+   "label": "Belt 90 cm / Black",
+   "sales": 1800.0
+  },
+  {
+   "label": "Laptop Sleeve / 14 in",
+   "sales": 1700.0
+  }
+ ],
+ "sales_by_country": [
+  {
+   "label": "United Kingdom",
+   "orders": 198,
+   "sales": 33200.0
+  },
+  {
+   "label": "Ireland",
+   "orders": 31,
+   "sales": 4900.0
+  },
+  {
+   "label": "France",
+   "orders": 17,
+   "sales": 2300.0
+  },
+  {
+   "label": "Germany",
+   "orders": 9,
+   "sales": 1100.0
+  },
+  {
+   "label": "Netherlands",
+   "orders": 5,
+   "sales": 500.0
+  }
+ ],
+ "devices": [
+  {
+   "label": "Mobile",
+   "sessions": 13100,
+   "conversion_rate": 0.0121
+  },
+  {
+   "label": "Desktop",
+   "sessions": 4400,
+   "conversion_rate": 0.0223
+  },
+  {
+   "label": "Tablet",
+   "sessions": 400,
+   "conversion_rate": 0.0175
+  }
+ ],
+ "countries": [
+  {
+   "label": "United Kingdom",
+   "sessions": 11200
+  },
+  {
+   "label": "Ireland",
+   "sessions": 2400
+  },
+  {
+   "label": "France",
+   "sessions": 1900
+  },
+  {
+   "label": "Germany",
+   "sessions": 1300
+  },
+  {
+   "label": "United States",
+   "sessions": 700
+  },
+  {
+   "label": "Netherlands",
+   "sessions": 400
+  }
+ ],
+ "inventory": [
+  {
+   "label": "Card Holder",
+   "sold": 88,
+   "ending_units": 210,
+   "sell_through": 0.2954
+  },
+  {
+   "label": "Key Fob",
+   "sold": 63,
+   "ending_units": 180,
+   "sell_through": 0.2593
+  },
+  {
+   "label": "Weekender Bag",
+   "sold": 62,
+   "ending_units": 44,
+   "sell_through": 0.5849
+  },
+  {
+   "label": "Belt, Bridle Leather",
+   "sold": 57,
+   "ending_units": 96,
+   "sell_through": 0.3725
+  },
+  {
+   "label": "Luggage Tag",
+   "sold": 44,
+   "ending_units": 130,
+   "sell_through": 0.2529
+  },
+  {
+   "label": "Field Satchel",
+   "sold": 41,
+   "ending_units": 12,
+   "sell_through": 0.7736
+  }
+ ],
+ "returns": {
+  "amount": 4500.0,
+  "rate": 0.1,
+  "top": [
+   {
+    "label": "Weekender Bag",
+    "amount": 1850.0
+   },
+   {
+    "label": "Field Satchel",
+    "amount": 1120.0
+   },
+   {
+    "label": "Laptop Sleeve",
+    "amount": 640.0
+   },
+   {
+    "label": "Belt, Bridle Leather",
+    "amount": 430.0
+   },
+   {
+    "label": "Travel Wallet",
+    "amount": 290.0
+   }
+  ]
+ },
+ "seasonality": [
+  {
+   "label": "Sep 24",
+   "value": 18200.0
+  },
+  {
+   "label": "Oct 24",
+   "value": 21400.0
+  },
+  {
+   "label": "Nov 24",
+   "value": 39800.0
+  },
+  {
+   "label": "Dec 24",
+   "value": 52100.0
+  },
+  {
+   "label": "Jan 25",
+   "value": 24600.0
+  },
+  {
+   "label": "Feb 25",
+   "value": 22900.0
+  },
+  {
+   "label": "Mar 25",
+   "value": 27300.0
+  },
+  {
+   "label": "Apr 25",
+   "value": 29800.0
+  },
+  {
+   "label": "May 25",
+   "value": 31200.0
+  },
+  {
+   "label": "Jun 25",
+   "value": 28700.0
+  },
+  {
+   "label": "Jul 25",
+   "value": 30100.0
+  },
+  {
+   "label": "Aug 25",
+   "value": 31500.0
+  },
+  {
+   "label": "Sep 25",
+   "value": 33800.0
+  },
+  {
+   "label": "Oct 25",
+   "value": 36200.0
+  },
+  {
+   "label": "Nov 25",
+   "value": 61400.0
+  },
+  {
+   "label": "Dec 25",
+   "value": 74900.0
+  },
+  {
+   "label": "Jan 26",
+   "value": 35100.0
+  },
+  {
+   "label": "Feb 26",
+   "value": 33400.0
+  },
+  {
+   "label": "Mar 26",
+   "value": 36800.0
+  },
+  {
+   "label": "Apr 26",
+   "value": 39900.0
+  },
+  {
+   "label": "May 26",
+   "value": 44200.0
+  },
+  {
+   "label": "Jun 26",
+   "value": 41600.0
+  },
+  {
+   "label": "Jul 26",
+   "value": 46800.0
+  },
+  {
+   "label": "Aug 26",
+   "value": 42000.0
+  }
+ ],
+ "history": {
+  "returns": [
+   {
+    "label": "Sep 25",
+    "gross_sales": 36233.6,
+    "reversals": -1992.85
+   },
+   {
+    "label": "Oct 25",
+    "gross_sales": 38806.4,
+    "reversals": -2289.58
+   },
+   {
+    "label": "Nov 25",
+    "gross_sales": 65820.8,
+    "reversals": -4146.71
+   },
+   {
+    "label": "Dec 25",
+    "gross_sales": 80292.8,
+    "reversals": -5379.62
+   },
+   {
+    "label": "Jan 26",
+    "gross_sales": 37627.2,
+    "reversals": -2671.53
+   },
+   {
+    "label": "Feb 26",
+    "gross_sales": 35804.8,
+    "reversals": -2685.36
+   },
+   {
+    "label": "Mar 26",
+    "gross_sales": 39449.6,
+    "reversals": -3116.52
+   },
+   {
+    "label": "Apr 26",
+    "gross_sales": 42772.8,
+    "reversals": -3550.14
+   },
+   {
+    "label": "May 26",
+    "gross_sales": 47382.4,
+    "reversals": -4122.27
+   },
+   {
+    "label": "Jun 26",
+    "gross_sales": 44595.2,
+    "reversals": -4058.16
+   },
+   {
+    "label": "Jul 26",
+    "gross_sales": 50169.6,
+    "reversals": -4766.11
+   },
+   {
+    "label": "Aug 26",
+    "gross_sales": 45024.0,
+    "reversals": -4457.38
+   }
+  ],
+  "conversion": [
+   {
+    "label": "Sep 25",
+    "sessions": 14000,
+    "conversion_rate": 0.0182
+   },
+   {
+    "label": "Oct 25",
+    "sessions": 14340,
+    "conversion_rate": 0.0178
+   },
+   {
+    "label": "Nov 25",
+    "sessions": 14680,
+    "conversion_rate": 0.0174
+   },
+   {
+    "label": "Dec 25",
+    "sessions": 15020,
+    "conversion_rate": 0.017
+   },
+   {
+    "label": "Jan 26",
+    "sessions": 15360,
+    "conversion_rate": 0.0166
+   },
+   {
+    "label": "Feb 26",
+    "sessions": 15700,
+    "conversion_rate": 0.0162
+   },
+   {
+    "label": "Mar 26",
+    "sessions": 16040,
+    "conversion_rate": 0.0158
+   },
+   {
+    "label": "Apr 26",
+    "sessions": 16380,
+    "conversion_rate": 0.0154
+   },
+   {
+    "label": "May 26",
+    "sessions": 16720,
+    "conversion_rate": 0.015
+   },
+   {
+    "label": "Jun 26",
+    "sessions": 17060,
+    "conversion_rate": 0.0146
+   },
+   {
+    "label": "Jul 26",
+    "sessions": 17400,
+    "conversion_rate": 0.0142
+   },
+   {
+    "label": "Aug 26",
+    "sessions": 17740,
+    "conversion_rate": 0.0138
+   }
+  ]
+ },
+ "klaviyo": null,
+ "ads": null,
+ "methodology": [
+  {
+   "title": "Period and time zone",
+   "text": "1 to 31 August 2026, in the store's time zone. Comparisons cover the previous calendar month and the same month last year."
+  },
+  {
+   "title": "Total sales",
+   "text": "Gross sales less discounts and refunds, plus shipping and taxes. This is Shopify's total_sales field."
+  },
+  {
+   "title": "Conversion funnel",
+   "text": "The funnel covers the online store only. Orders placed elsewhere count in orders but not in sessions."
+  },
+  {
+   "title": "Orders against the funnel",
+   "text": "260 orders were recorded against 232 online checkouts: 19 manual orders and 9 wholesale orders make up the gap."
+  },
+  {
+   "title": "Traffic attribution",
+   "text": "Shopify last-click attribution. Visits with no referrer sent by the browser fall into direct, which inflates that line."
+  },
+  {
+   "title": "Refunds",
+   "text": "A refund is dated when it was processed, not when the original order was placed. A day can therefore show negative revenue."
+  },
+  {
+   "title": "Gross margin",
+   "text": "Computed from cost per item on Shopify. Items with no cost recorded count as zero, which overstates the margin."
+  },
+  {
+   "title": "Data source",
+   "text": "Shopify Analytics, queried on 14 September 2026. Figures may differ slightly from the Shopify admin depending on time zone and channel scope."
+  }
+ ]
+}
