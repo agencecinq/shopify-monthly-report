@@ -1,14 +1,30 @@
+# Build artefacts left by running the report locally.
 __pycache__/
 *.py[cod]
 *.pptx
 *.pdf
 *.plugin
-.DS_Store
-.venv/
-build/
-dist/
+
+# Screenshots and sample decks that belong to the documentation.
+!docs/*.pdf
+!docs/*.pptx
+
+# Working files a real run produces. These carry a live store's revenue,
+# product names and domain, so keeping them out of a public repository is the
+# point. The documented files are *.example.json, which are never matched here.
 report.json
-config.json
 plan.json
 settings_data.json
-logo.png
+config.json
+/scratch/
+/tmp/
+
+# Anchored: a logo.png anywhere else in the tree is project artwork, not a
+# store's logo pulled from Shopify.
+/logo.png
+
+# Environments and OS noise.
+.venv/
+venv/
+.DS_Store
+Thumbs.db
