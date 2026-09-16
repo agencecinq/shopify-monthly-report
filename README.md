@@ -138,4 +138,4 @@ support for other analytics sources are all welcome.
 
 ## Licence
 
-MIT, see [LICENSE](LICENSE). Built by [Agence CINQ](https://agencecinq.com).
+MIT, see [LICENSE](LICENSE). Built by [CINQ - Agence Wordpress & Shopify](https://agencecinq.com).
