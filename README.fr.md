@@ -47,12 +47,21 @@ chapitres correspondants n'apparaissent pas, sans trou ni « non disponible ».
 
 ## Installation
 
-Téléchargez le plugin depuis les
-[Releases](https://github.com/agencecinq/shopify-monthly-report/releases) et
-installez-le dans l'app Claude desktop, ou clonez le dépôt.
+Le dépôt est sa propre marketplace de plugins. Dans Claude Code, ajoutez-la puis
+installez le plugin :
+
+```
+/plugin marketplace add agencecinq/shopify-monthly-report
+/plugin install shopify-monthly-report@agencecinq
+```
+
+Les deux étapes sont distinctes à dessein : la première indique à Claude où
+chercher, la seconde installe. Redémarrez la session ensuite, pour que le skill
+soit chargé.
+
+Puis les dépendances Python avec lesquelles la présentation est construite :
 
 ```bash
-git clone https://github.com/agencecinq/shopify-monthly-report.git
 pip install python-pptx Pillow
 ```
 

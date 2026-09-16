@@ -1,0 +1,31 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "agencecinq",
+  "description": "Plugins published by Agence CINQ for Shopify merchants and the people who report to them.",
+  "owner": {
+    "name": "Agence CINQ",
+    "url": "https://agencecinq.com"
+  },
+  "plugins": [
+    {
+      "name": "shopify-monthly-report",
+      "source": "./",
+      "description": "Builds a complete monthly Shopify performance report as a PowerPoint deck in the store's own colours, with a 90-day plan of measured targets.",
+      "version": "1.0.1",
+      "author": {
+        "name": "Agence CINQ",
+        "url": "https://agencecinq.com"
+      },
+      "homepage": "https://github.com/agencecinq/shopify-monthly-report",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": [
+        "shopify",
+        "reporting",
+        "ecommerce",
+        "powerpoint",
+        "analytics"
+      ]
+    }
+  ]
+}

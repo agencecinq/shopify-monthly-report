@@ -34,18 +34,45 @@ def frontmatter_description(fm):
 def main(root):
     errors, warnings = [], []
 
+    manifest_meta = None
     manifest = os.path.join(root, ".claude-plugin", "plugin.json")
     if not os.path.exists(manifest):
         errors.append("plugin.json missing")
     else:
         with open(manifest, encoding="utf-8") as fh:
-            meta = json.load(fh)
+            meta = manifest_meta = json.load(fh)
         if not re.fullmatch(r"[a-z0-9-]+", meta.get("name", "")):
             errors.append(f"plugin name is not kebab-case: {meta.get('name')!r}")
         if not re.fullmatch(r"\d+\.\d+\.\d+", meta.get("version", "")):
             errors.append(f"version is not semver: {meta.get('version')!r}")
         if len(meta.get("description", "")) > DESCRIPTION_LIMIT:
             errors.append(f"plugin.json description over {DESCRIPTION_LIMIT}")
+
+    # Without this file a GitHub repository is not an installable source: the
+    # plugin manifest alone is what the client sees rejected.
+    market = os.path.join(root, ".claude-plugin", "marketplace.json")
+    if not os.path.exists(market):
+        errors.append("marketplace.json missing, the repository cannot be added "
+                      "with /plugin marketplace add")
+    else:
+        with open(market, encoding="utf-8") as fh:
+            listing = json.load(fh)
+        if not re.fullmatch(r"[a-z0-9-]+", listing.get("name", "")):
+            errors.append(f"marketplace name is not kebab-case: "
+                          f"{listing.get('name')!r}")
+        entries = listing.get("plugins") or []
+        if not entries:
+            errors.append("marketplace.json lists no plugins")
+        for entry in entries:
+            if entry.get("source") not in ("./", ".") or not manifest_meta:
+                continue
+            # The entry and the manifest describe the same plugin, so a
+            # disagreement installs one version under another's name.
+            for field in ("name", "version"):
+                if field in entry and entry[field] != manifest_meta.get(field):
+                    errors.append(f"marketplace.json {field} {entry[field]!r} "
+                                  f"disagrees with plugin.json "
+                                  f"{manifest_meta.get(field)!r}")
 
     skills_dir = os.path.join(root, "skills")
     found = 0

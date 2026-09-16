@@ -1,6 +1,6 @@
 {
   "name": "shopify-monthly-report",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Builds a complete monthly Shopify performance report as a PowerPoint deck in the store's own colours, with a 90-day plan of measured targets.",
   "author": {
     "name": "Agence CINQ",

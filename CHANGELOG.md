@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [semantic versioning](https://semver.org/).
 
+## [1.0.1] - 2026-09-16
+
+### Fixed
+
+- Added `.claude-plugin/marketplace.json`, without which the repository is not
+  an installable plugin source: `/plugin marketplace add` rejected it and only
+  `plugin.json` was present. Installation now works from the GitHub repository.
+
+### Changed
+
+- Install instructions in both READMEs give the two commands that actually
+  install the plugin, instead of pointing at a Releases page.
+- `tools/validate_plugin.py` fails when `marketplace.json` is missing, lists no
+  plugin, or disagrees with `plugin.json` on the name or version.
+
 ## [1.0.0] - 2026-09-14
 
 First public release.

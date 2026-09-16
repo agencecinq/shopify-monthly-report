@@ -46,13 +46,20 @@ the matching chapters simply do not appear, with no gap and no "not available".
 
 ## Install
 
-Download the packaged plugin from
-[Releases](https://github.com/agencecinq/shopify-monthly-report/releases) and
-install it in the Claude desktop app, or clone the repository and point your
-plugin directory at it.
+The repository is its own plugin marketplace. In Claude Code, add it and then
+install the plugin:
+
+```
+/plugin marketplace add agencecinq/shopify-monthly-report
+/plugin install shopify-monthly-report@agencecinq
+```
+
+The two steps are separate on purpose: the first tells Claude where to look,
+the second installs. Restart the session afterwards so the skill loads.
+
+Then the Python dependencies the deck is built with:
 
 ```bash
-git clone https://github.com/agencecinq/shopify-monthly-report.git
 pip install python-pptx Pillow
 ```
 
