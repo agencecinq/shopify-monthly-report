@@ -164,5 +164,4 @@ if __name__ == "__main__":
         print(f"  {cur}: {L.money(35396.05, cur)} / {L.money(-812.4, cur)} / "
               f"{L.money(42.5, cur)}")
     print("  pct:", L.pct(0.01086, 2), "| points:", L.points(0.029))
-    print("  slide:", L.t("slides.plan"), "| milestone:",
-          L.t("labels.milestones", values="1,3 % · 1,5 %"))
+    print("  slide:", L.t("slides.plan"), "| target:", L.t("labels.goal"))

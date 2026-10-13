@@ -3,8 +3,8 @@ name: shopify-monthly-report
 description: >
   Builds a complete monthly performance report for a Shopify store as a
   PowerPoint deck in the store's own colours: sales, traffic, conversion,
-  products, customers, margin, returns and stock, followed by a 90-day plan
-  with measured targets. Adapts to the store's profile and handles several
+  products, customers, margin, returns and stock, followed by next month's
+  plan with measured targets. Adapts to the store's profile and handles several
   stores. Use whenever someone asks for their monthly report, their reporting,
   their month's figures, their numbers, their priorities for the quarter, or
   says "build me the September report", "how is my store doing this month", "a
@@ -67,6 +67,26 @@ To add a language, copy `i18n/en.json`, translate the values, and keep the keys
 and the `_format` block, which carries number and currency conventions.
 
 ## Procedure
+
+### 0. Check the deck can be built
+
+The deck is a PowerPoint file built by `scripts/build_report.py`, which needs
+**python-pptx**. Check it before anything else, so no query is spent on a
+report that cannot be delivered:
+
+```bash
+python3 -c "import pptx, PIL" 2>/dev/null || pip install python-pptx Pillow --break-system-packages
+python3 -c "import pptx"
+```
+
+If python-pptx still cannot be imported (no network for pip in this
+environment, no permission), stop and tell the user in one sentence: the
+report needs the python-pptx library, and this environment cannot install it.
+Do not collect the data, do not write the deck by hand, and do not fall back on
+another format without being asked.
+
+Pillow only serves the logo. Without it the deck is built without a logo and
+the build prints a warning saying so.
 
 ### 1. Identify the store
 
@@ -171,20 +191,21 @@ python3 "${CLAUDE_PLUGIN_ROOT}/skills/shopify-monthly-report/scripts/build_repor
 `--theme`, `--logo`, `--config` and `--lang` are optional. `--state` writes the
 plan to a file, to be stored back in the metafield at the next step.
 
-Dependencies, to install if the import fails:
+Dependencies are checked at step 0. Without python-pptx the script stops with
+one line saying how to install it.
 
-```bash
-pip install python-pptx Pillow --break-system-packages
-```
-
-The script prints the palette it used, the chapters, the findings and the plan.
+The script prints the palette it used, the chapters, the findings, the plan and
+a `warnings` list, also written to stderr. A warning means a rule or a slide was
+skipped, or a monthly series did not end on the period. Read every one: fix
+report.json and rebuild when the cause is in the data, otherwise name it in the
+delivery summary. Never deliver over a warning you have not read.
 
 ### 10. Store the context and the plan
 
 Write the updated context to the `shopify_report.context` metafield, with
 `previous_plan` set to the contents of the `--state` file.
 
-Without this step, next month's report cannot measure the milestones, and the
+Without this step, next month's report cannot measure the targets, and the
 plan stays an intention nobody ever checks. This is what separates a report
 from a follow-up.
 
@@ -193,13 +214,15 @@ in a file. Never block delivery over it.
 
 ### 11. Check, then deliver
 
-Verify five things:
+Verify six things:
 
 1. The totals match the API responses.
 2. No slide states a cause, a means or a judgement.
 3. The comparison basis appears on the slides.
 4. The chapters match what the store actually is.
-5. The plan's targets are levels already reached, or explicitly capped.
+5. Each target's stated reference matches how it was set: best month,
+   capped, declared threshold, reference period or convention.
+6. The `warnings` list is empty, or every warning is explained.
 
 Deliver the file, then summarise: the profile used, the period, revenue and its
 change, the two or three priorities with their calculated gain, and any missing
@@ -214,7 +237,7 @@ The script composes on its own from the data present and the profile.
 3. The month at a glance: four indicators and their changes
 4. What stands out this month: the salience findings
 5. Where last month's plan stands (when a previous plan exists)
-6. The next 90 days
+6. The month ahead: next month's plan
 7. **Sales**: daily trend, 24-month history, breakdown, channels
 8. **Acquisition**: funnel and sources, traffic by country and device, sales by country
 9. **Products**: best sellers, product lines, variants, stock, returns
@@ -237,14 +260,24 @@ The scripts sort workstreams into two natures that are never mixed:
   reliance on one source.
 
 Leaks come first. At most one risk enters the plan, otherwise it stops being
-actionable. A workstream whose monthly gain is worth less than 2% of revenue is
+actionable. A workstream whose monthly gain is worth less than 1% of revenue is
 dropped: two priorities beat a list.
 
-A workstream's target is a level the store actually reached in the last six
-months. If that level is more than two months old, the target is capped at a
-three-tenths improvement: a metric degrading for six months would otherwise
-produce a goal nobody can hold. A threshold declared by the merchant in the
-context beats this internal reference.
+Every target is set for next month, and next month's report measures that same
+target. There are no intermediate milestones: the plan commits to one month at
+a time, and every commitment is checked.
+
+Where a monthly history exists (conversion, refunds), the target is the best
+level the store reached in the last six months. If that month is more than two
+months old and out of reach, the target is capped at a one-tenth improvement,
+unless one of the last two months did better, in which case that fresh level is
+the target: a metric degrading for six months would otherwise produce a goal
+nobody can hold. A threshold declared by the merchant in the context beats this
+internal reference, a store already within it gets no refunds workstream, and
+no target goes below it.
+Basket and margin aim at the reference period; dependency workstreams move by a
+two-point step; refunds with no history and no threshold fall back on a
+one-tenth reduction. The slide always names which of these set the target.
 
 ## Client configuration
 

@@ -61,31 +61,31 @@ says where the figures come from and what they do not cover.
 
 Blocks to produce every time:
 
-- **Period and time zone** — exact dates, the store's time zone, comparison
+- **Period and time zone**: exact dates, the store's time zone, comparison
   bases.
-- **Total sales** — Shopify's formula, spelled out.
-- **Conversion funnel** — the funnel covers the online store only.
-- **Traffic attribution** — last click, and the fact that visits with no
+- **Total sales**: Shopify's formula, spelled out.
+- **Conversion funnel**: the funnel covers the online store only.
+- **Traffic attribution**: last click, and the fact that visits with no
   referrer fall into direct, which inflates that line.
-- **Data source** — Shopify Analytics, the date it was queried, and the fact
+- **Data source**: Shopify Analytics, the date it was queried, and the fact
   that the Shopify admin may show differences depending on its time zone and
   channel scope.
 
 Conditional blocks, when the case arises:
 
-- **Orders against the funnel** — whenever order count differs materially from
+- **Orders against the funnel**: whenever order count differs materially from
   checkouts completed online. Give both figures and the channel split.
-- **Refunds** — a refund is dated when processed, not when the original order
+- **Refunds**: a refund is dated when processed, not when the original order
   was placed; a day can therefore be negative.
-- **Gross margin** — computed from costs filled in on Shopify; items with no
+- **Gross margin**: computed from costs filled in on Shopify; items with no
   cost count as zero, which overstates the margin.
-- **Incomplete period** — if the period is not over, say so and give the number
+- **Incomplete period**: if the period is not over, say so and give the number
   of days covered.
-- **Third-party attribution** — for email or advertising, the attribution
+- **Third-party attribution**: for email or advertising, the attribution
   window, and the fact that those figures overlap Shopify's rather than adding
   to them.
 
-The script appends a **90-day plan** block on its own when a plan is produced,
+The script appends a **next month's plan** block on its own when a plan is produced,
 so there is no need to write one.
 
 Neutral, factual tone. A limitation is described, not apologised for: write

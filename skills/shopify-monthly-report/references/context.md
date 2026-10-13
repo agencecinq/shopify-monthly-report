@@ -81,7 +81,7 @@ mutation Def($d: MetafieldDefinitionInput!) {
 ```json
 {"d": {"name": "Monthly report context",
        "namespace": "shopify_report", "key": "context",
-       "description": "Context used by the monthly report: declared targets, thresholds, data reliability and the 90-day plan in progress.",
+       "description": "Context used by the monthly report: declared targets, thresholds, data reliability and the plan in progress.",
        "type": "json", "ownerType": "SHOP"}}
 ```
 
@@ -171,8 +171,7 @@ declined to answer, so they are not asked again.
   "previous_plan": {
     "period": "August 2026",
     "workstreams": [{"key": "returns", "title": "Refunds", "unit": "rate",
-                     "current": 0.1704, "target": 0.119,
-                     "milestones": [0.153, 0.136, 0.119], "monthly_gain": 1955}]
+                     "current": 0.1704, "target": 0.1534, "monthly_gain": 1955}]
   }
 }
 ```
@@ -190,7 +189,7 @@ is only an intention nobody ever verifies.
 | `annual_revenue_target` | Adds year-to-date progress through `ytd`. |
 | `cost_of_goods` = `none` | The profitability chapter is not published. |
 | `cost_of_goods` = `partial` | The chapter is published with `margin.incomplete` filled in. |
-| `acceptable_return_rate` | Becomes the refunds workstream target when it is within reach over 90 days. |
+| `acceptable_return_rate` | Becomes the refunds workstream target when it is within reach in one month; no target goes below it, and a store within it gets no refunds workstream. |
 | `excluded_channels` | The named channels drop out of the channels chapter and the totals, and the methodology says so. |
 | `previous_plan` | Feeds the follow-up slide. |
 

@@ -20,7 +20,13 @@ import json
 import os
 import sys
 
-from pptx import Presentation
+try:
+    from pptx import Presentation
+except ImportError:
+    # The deck cannot be built without it. Say so in one line, before any
+    # work, instead of a traceback the merchant cannot read.
+    sys.exit("python-pptx is required to build the deck. Install it with: "
+             "pip install python-pptx Pillow")
 from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
 from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION, XL_LEGEND_POSITION
@@ -32,6 +38,7 @@ from pptx.util import Emu, Inches, Pt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from brand import build_palette, contrast, mix  # noqa: E402
 from i18n import Lang, available  # noqa: E402
+import shared  # noqa: E402
 
 W, H = 13.333, 7.5
 M = 0.62               # marge laterale
@@ -115,6 +122,7 @@ class Deck:
         self.prs.slide_width = Inches(W)
         self.prs.slide_height = Inches(H)
         self.page = 0
+        self.warnings = []
         self.chapter = None
         self.toc = []
         self.money_fmt = _L.chart_number_format(meta.get("currency", "EUR"))
@@ -410,8 +418,12 @@ def _place_logo(d, s, logo, x, y, bg_hex, height=0.72):
                        fill=chip, radius=0.16)
         s.shapes.add_picture(logo, Inches(x), Inches(y),
                              height=Inches(height), width=Inches(w_in))
-    except Exception:
-        pass
+    except ImportError:
+        # Pillow only serves the logo: the deck still ships, without it.
+        d.warnings.append("logo left out: Pillow is not installed "
+                          "(pip install Pillow)")
+    except Exception as exc:
+        d.warnings.append(f"logo left out: {exc!r}")
 
 
 def slide_cover(d, data, logo):
@@ -547,9 +559,9 @@ def slide_highlights(d, data):
 
 def slide_plan(d, data):
     """
-    Le plan des 90 prochains jours. C'est la seule slide qui regarde devant,
-    et elle ne tient que parce que chaque objectif est un niveau que la
-    boutique a déjà atteint, avec un gain calculé au lieu d'être décrété.
+    Le plan du mois prochain. C'est la seule slide qui regarde devant, et elle
+    ne tient que parce que chaque objectif dit d'où il vient, avec un gain
+    calculé au lieu d'être décrété, et qu'il sera mesuré le mois suivant.
     """
     prios = data.get("priorities") or []
     if not prios:
@@ -576,15 +588,15 @@ def slide_plan(d, data):
                size=9.5, color=p["muted"], spacing=1.14)
 
         x1 = M + gauche + 0.3
-        d.text(s, x1, y + 0.16, droite - 0.32, 0.24, T("labels.goal_90"),
+        d.text(s, x1, y + 0.16, droite - 0.32, 0.24, T("labels.goal"),
                size=8.5, bold=True, color=p["muted"])
         d.text(s, x1, y + 0.42, droite - 0.32, 0.34, c["goal"], size=12,
                bold=True, color=p["ink"])
         d.text(s, x1, y + 0.80, droite - 0.32, 0.26,
                T("labels.gain_line", label=c["gain_label"], value=c["gain_txt"]),
                size=10, bold=True, color=p["ink"])
-        d.text(s, x1, y + 1.06, droite - 0.32, 0.26,
-               T("labels.milestones", values="  ·  ".join(c["milestones_txt"])),
+        d.text(s, x1, y + 1.06, droite - 0.32, 0.30,
+               T("labels.reference", reference=c["reference"]),
                size=9, color=p["muted"])
 
     d.text(s, M, FOOT - 0.62, total_w, 0.55, T("captions.plan"),
@@ -592,8 +604,8 @@ def slide_plan(d, data):
 
 
 def slide_suivi(d, data):
-    """Où en est le plan du mois précédent. Sans jugement : le jalon visé, la
-    valeur mesurée, et si le jalon est tenu."""
+    """Où en est le plan du mois précédent. Sans jugement : l'objectif visé,
+    la valeur mesurée, et si l'objectif est tenu."""
     lignes = data.get("plan_suivi") or []
     if not lignes:
         return
@@ -603,8 +615,8 @@ def slide_suivi(d, data):
                 hint=lecture(data, "follow_up")) + 0.1
 
     cols = [T("tables.project"), T("tables.starting_point"),
-            T("tables.milestone"), T("tables.measured"),
-            T("tables.milestone_met")]
+            T("tables.target"), T("tables.measured"),
+            T("tables.target_met")]
     widths = [0.30, 0.17, 0.17, 0.20, 0.16]
     total_w = W - 2 * M
     aligns = [PP_ALIGN.LEFT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT, PP_ALIGN.RIGHT,
@@ -623,14 +635,16 @@ def slide_suivi(d, data):
     for ri, l in enumerate(lignes[:6]):
         if ri % 2 == 1:
             d.bar(s, M, y, total_w, rh, p["surface"])
-        cells = [l["title"], l["start"], l["milestone"], l["measured"],
-                 T("common.yes") if l["met"] else T("common.no")]
+        met = l.get("met")
+        cells = [l["title"], l["start"], l["target"], l["measured"],
+                 T("common.na") if met is None
+                 else T("common.yes") if met else T("common.no")]
         x = M
         for ci, cell in enumerate(cells):
             cw = total_w * widths[ci]
             col = p["ink"]
             if ci == 4:
-                col = p["up"] if l["met"] else p["down"]
+                col = p["muted"] if met is None else p["up"] if met else p["down"]
             d.text(s, x + 0.12, y, cw - 0.24, rh, cell, size=10.5,
                    bold=(ci == 4), color=col, align=aligns[ci],
                    anchor=MSO_ANCHOR.MIDDLE)
@@ -1200,24 +1214,36 @@ def build(data, palette, logo, out):
     meta["kicker"] = meta.get("kicker") or meta.get("comparison_sentence")
     meta.setdefault("comparison_labels", {})
 
+    # Every problem met on the way is printed in the output instead of
+    # silently removing a slide.
+    warnings = shared.align_to_period(data)
+
     if not data.get("highlights"):
         try:
             import highlights as hl_mod
-            data["highlights"] = hl_mod.compute(data, lang=_L)
-        except Exception:
+            data["highlights"] = hl_mod.compute(data, lang=_L, errors=warnings)
+        except Exception as exc:
+            warnings.append(f"highlights: {exc!r}")
             data["highlights"] = []
 
     prio_state = None
     if not data.get("priorities"):
         try:
             import priorities as pr_mod
-            data["priorities"] = pr_mod.compute(data, lang=_L)
+            data["priorities"] = pr_mod.compute(data, lang=_L, errors=warnings)
+            # Written only from the plan the deck shows, so the metafield never
+            # holds a plan the merchant has not seen.
             prio_state = pr_mod.to_state(data["priorities"], meta)
-            if data.get("previous_plan"):
+        except Exception as exc:
+            warnings.append(f"priorities: {exc!r}")
+            data["priorities"] = []
+        if data.get("previous_plan"):
+            try:
                 data["plan_suivi"] = pr_mod.follow_up(
                     data["previous_plan"], data, lang=_L)
-        except Exception:
-            data["priorities"] = []
+            except Exception as exc:
+                warnings.append(f"follow_up: {exc!r}")
+                data["plan_suivi"] = []
 
     # Un plan sans sa note de méthode n'est pas défendable : on garantit sa
     # présence plutôt que de compter sur le rédacteur.
@@ -1228,6 +1254,7 @@ def build(data, palette, logo, out):
                           "text": T("methodology.plan_text")})
 
     d = Deck(palette, meta)
+    d.warnings = warnings
     chapters = plan(data)
 
     slide_cover(d, data, logo)
@@ -1251,7 +1278,8 @@ def build(data, palette, logo, out):
                           hint=lecture(data, "methodology"))
 
     d.prs.save(out)
-    return out, [c["title"] for c in chapters], data.get("highlights") or [], prio_state
+    return (out, [c["title"] for c in chapters], data.get("highlights") or [],
+            prio_state, warnings)
 
 
 def main():
@@ -1279,7 +1307,10 @@ def main():
     if over.get("agency") is not None:
         data.setdefault("meta", {})["agency"] = over["agency"]
 
-    out, chapters, hl, prio_state = build(data, palette, logo=a.logo, out=a.out)
+    out, chapters, hl, prio_state, warnings = build(data, palette, logo=a.logo,
+                                                    out=a.out)
+    for w in warnings:
+        print(f"warning: {w}", file=sys.stderr)
     if a.state and prio_state:
         with open(a.state, "w", encoding="utf-8") as f:
             json.dump(prio_state, f, ensure_ascii=False, indent=1)
@@ -1295,6 +1326,7 @@ def main():
                   "goal": c["goal"], "gain": c["gain_txt"]}
                  for c in (data.get("priorities") or [])],
         "state_file": a.state if (a.state and prio_state) else None,
+        "warnings": warnings,
     }, ensure_ascii=False, indent=2))
 
 

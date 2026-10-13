@@ -107,7 +107,9 @@ Source labels, to translate into the report's language every time:
 
 The empty row is almost always the largest: it holds direct traffic and every
 visit whose browser sent no referrer. Say so in the methodology, or the reader
-takes it for pure direct traffic.
+takes it for pure direct traffic. Mark it, and the `unknown` row, with
+`"unattributed": true` in report.json: an absence of attribution is not a
+source, and the engines leave it out of every dependency finding and target.
 
 ## Group 5 — devices, countries, stock, returns
 
@@ -175,23 +177,33 @@ type set: drop it before writing report.json.
 ## Group 7 — monthly history
 
 ```
-FROM sales SHOW total_sales, orders TIMESERIES month SINCE -24m UNTIL today
+FROM sales SHOW total_sales, orders TIMESERIES month SINCE START_24M UNTIL END
 ```
 
 ```
-FROM sales SHOW gross_sales, sales_reversals TIMESERIES month SINCE -12m UNTIL today
+FROM sales SHOW gross_sales, sales_reversals TIMESERIES month SINCE START_12M UNTIL END
 ```
 
 ```
-FROM sessions SHOW sessions, conversion_rate TIMESERIES month SINCE -12m UNTIL today
+FROM sessions SHOW sessions, conversion_rate TIMESERIES month SINCE START_12M UNTIL END
 ```
+
+`START_12M` is the first day of the month eleven months before the period
+(`2025-09-01` for an August 2026 report), `START_24M` the first day of the
+month twenty-three months before. **Never end these on `today`**: a September
+report run on 12 October would end on a partial October, the seasonality rank
+would compare twelve days with full months, and the plan's reference window
+would slide by one month. A relative `SINCE -12m` has the same flaw at the
+other end, opening on a partial month.
 
 The first feeds available history, the "month in context" chapter, and
-seasonality detection. The other two are the reference the 90-day plan sets its
+seasonality detection. The other two are the reference the plan sets its
 targets against: without them, no workstream can name a goal.
 
 Format month labels short and in the report's language ("Aug 26"), otherwise
-the chart axis becomes unreadable.
+the chart axis becomes unreadable. Give every row its `month` as `YYYY-MM` too:
+the builder checks it against the period, drops any month after it, and warns
+when a series stops short.
 
 ## Branding
 

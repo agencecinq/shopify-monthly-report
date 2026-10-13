@@ -20,6 +20,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from i18n import Lang  # noqa: E402
+from shared import source_share  # noqa: E402
 
 
 def _rel(cur, ref):
@@ -78,19 +79,15 @@ def _r_product_concentration(data, L, cur, out):
 
 
 def _r_source_concentration(data, L, cur, out):
-    src = data.get("traffic_sources") or []
-    if not src:
-        return
-    total = sum(s.get("sales") or 0 for s in src)
-    if total <= 0:
-        return
-    share = (src[0].get("sales") or 0) / total
-    if share < 0.55:
+    # Measured on attributed revenue only, as the sentence says: the row with
+    # no identified referrer is not a source anyone can depend on.
+    share, name = source_share(data)
+    if share is None or share < 0.55:
         return
     out.append({
         "tag": L.t("highlights.tags.acquisition"),
         "text": L.t("highlights.concentration_source", share=L.pct(share),
-                    name=src[0]["label"]),
+                    name=name),
         "score": 40 + share * 35})
 
 
@@ -332,8 +329,11 @@ RULES = [
 ]
 
 
-def compute(data, limit=6, lang=None):
-    """Return the most salient findings, strongest first."""
+def compute(data, limit=6, lang=None, errors=None):
+    """
+    Return the most salient findings, strongest first. A rule that trips on
+    unexpected data is skipped and its error appended to `errors`.
+    """
     meta = data.get("meta") or {}
     L = lang if isinstance(lang, Lang) else Lang(lang or meta.get("lang", "fr"))
     cur = meta.get("currency", "EUR")
@@ -342,9 +342,11 @@ def compute(data, limit=6, lang=None):
     for rule in RULES:
         try:
             rule(data, L, cur, out)
-        except Exception:
-            # A rule that trips on unexpected data must never stop the report.
-            continue
+        except Exception as exc:
+            # A rule that trips on unexpected data must never stop the report,
+            # nor vanish without a word.
+            if errors is not None:
+                errors.append(f"highlights.{rule.__name__}: {exc!r}")
     out.sort(key=lambda h: -h["score"])
 
     seen, kept = set(), []
@@ -362,5 +364,8 @@ if __name__ == "__main__":
     import json
     d = json.load(open(sys.argv[1], encoding="utf-8"))
     code = sys.argv[2] if len(sys.argv) > 2 else None
-    for h in compute(d, lang=code):
+    errors = []
+    for h in compute(d, lang=code, errors=errors):
         print(f"[{h['tag']:<14}] {h['text']}")
+    for e in errors:
+        print(f"warning: {e}", file=sys.stderr)

@@ -103,10 +103,15 @@ the rest of the funnel only covers the online store.
 ## traffic_sources
 
 ```json
-[{"label": "Direct or unidentified", "orders": 148, "sales": 24100.00}]
+[{"label": "Direct or unidentified", "orders": 148, "sales": 24100.00,
+  "unattributed": true},
+ {"label": "Search", "orders": 71, "sales": 11400.00}]
 ```
 
-Sorted by sales descending; six entries shown at most.
+Sorted by sales descending; six entries shown at most. `unattributed` marks the
+rows with no identified referrer (the empty and `unknown` API values). Shares of
+"attributed revenue" are computed without them, and they can never be the
+subject of a dependency workstream.
 
 ## customers
 
@@ -225,8 +230,11 @@ Monthly history, oldest first. The last entry must be the period under review:
 that is the bar the chart highlights.
 
 ```json
-[{"label": "Aug 26", "value": 42000.00}]
+[{"label": "Aug 26", "month": "2026-08", "value": 42000.00}]
 ```
+
+`month` is the machine-readable month. The builder drops rows after the period
+and warns when the last row is not the period, or when `month` is missing.
 
 Short labels in the report's language, or the axis becomes unreadable. Six
 months minimum for the chapter to appear, twelve for the rank to be computed.
@@ -238,12 +246,17 @@ and cannot set a target.**
 
 ```json
 {
-  "returns": [{"label": "Aug 26", "gross_sales": 45000.00, "reversals": -4500.00}],
-  "conversion": [{"label": "Aug 26", "sessions": 17900, "conversion_rate": 0.0145}]
+  "returns": [{"label": "Aug 26", "month": "2026-08",
+               "gross_sales": 45000.00, "reversals": -4500.00}],
+  "conversion": [{"label": "Aug 26", "month": "2026-08",
+                  "sessions": 17900, "conversion_rate": 0.0145}]
 }
 ```
 
-`reversals` keeps the API's negative sign. Months at exactly zero are dropped
+Same rule as `seasonality`: the last row is the period under review, and it
+must agree with the period's own figures (the last conversion row is the
+`cr` KPI, the last returns row is `sales_detail`). `reversals` keeps the API's
+negative sign. Months at exactly zero are dropped
 from the reference: they almost always mean returns were not being recorded
 yet.
 
@@ -267,7 +280,7 @@ Store context, taken from the metafield. See `context.md`.
 ```
 
 `acceptable_return_rate` beats the internal reference when setting the refunds
-target.
+target. A store whose refund rate is at or under it gets no refunds workstream.
 
 ## ytd
 
