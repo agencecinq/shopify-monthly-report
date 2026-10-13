@@ -1,6 +1,8 @@
-# Shopify monthly report
+# Trente
 
-A Claude plugin that turns a Shopify store's data into a complete monthly
+The monthly Shopify report, by [CINQ](https://agencecinq.com).
+
+Trente is a free, open-source Claude plugin that turns a Shopify store's data into a complete monthly
 report: a PowerPoint deck in the store's own colours, ending with next month's
 plan of measured targets.
 
@@ -39,6 +41,10 @@ store itself. Next month's report opens on a follow-up slide comparing each
 target to what was actually measured: every commitment the plan makes is
 checked, a month later.
 
+**Your data stays in your account.** Figures are read through the Shopify
+connector and processed in your Claude account. The plugin makes no network call
+of its own, and nothing reaches CINQ.
+
 ## Requirements
 
 - The **Shopify connector** in Claude.
@@ -60,7 +66,7 @@ install the plugin:
 
 ```
 /plugin marketplace add agencecinq/shopify-monthly-report
-/plugin install shopify-monthly-report@agencecinq
+/plugin install trente@agencecinq
 ```
 
 The two steps are separate on purpose: the first tells Claude where to look,
@@ -97,8 +103,9 @@ Cover, table of contents, the month at a glance, what stands out, last month's
 plan, the month ahead, then the chapters: **Sales** (daily trend, 24-month
 history, breakdown, channels), **Acquisition** (funnel, sources, countries and
 devices), **Products** (best sellers, lines, variants, stock, returns),
-**Customers**, **Profitability**, **Marketing**, and a method slide saying where
-every figure comes from.
+**Customers**, **Profitability**, **Marketing**, a method slide saying where
+every figure comes from, and a closing slide on Trente and CINQ with a link to
+reach us.
 
 Each chapter carries one line explaining what the metric measures and how to
 read it. Chapters with no data are not rendered.
@@ -111,7 +118,7 @@ English and French ship with the plugin. Pass `--lang en`, `--lang fr`, or set
 Number and currency formatting follows the language, not just the words: French
 writes `35 396 €` and English writes `€35,396`.
 
-To add a language, copy `skills/shopify-monthly-report/i18n/en.json`, translate
+To add a language, copy `skills/trente/i18n/en.json`, translate
 the values, keep the keys, and adjust the `_format` block. Pull requests
 welcome. Any key a translation is missing falls back to English rather than
 printing a raw key into someone's deck.
@@ -121,13 +128,13 @@ printing a raw key into someone's deck.
 The repository ships a complete example built on a fictional store:
 
 ```bash
-cd skills/shopify-monthly-report/scripts
+cd skills/trente/scripts
 python3 build_report.py --data ../../../examples/report.example.json \
   --lang en -o report.pptx
 ```
 
 That file is also the reference for the data contract, documented in
-[`report-schema.md`](skills/shopify-monthly-report/references/report-schema.md).
+[`report-schema.md`](skills/trente/references/report-schema.md).
 
 ## How it works
 

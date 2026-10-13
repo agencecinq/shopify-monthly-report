@@ -22,7 +22,7 @@ produces the same output. Please do not move that work into the prompt.
 
 ```bash
 pip install python-pptx Pillow
-cd skills/shopify-monthly-report/scripts
+cd skills/trente/scripts
 python3 build_report.py --data ../../../examples/report.example.json \
   --lang en -o /tmp/report.pptx
 ```
@@ -32,7 +32,7 @@ including issues: revenue, product names and domains identify a business.
 
 ## Adding a language
 
-1. Copy `skills/shopify-monthly-report/i18n/en.json` to `<code>.json`.
+1. Copy `skills/trente/i18n/en.json` to `<code>.json`.
 2. Translate the values, keep every key.
 3. Adjust `_format`: thousands separator, decimal separator, currency position
    and spacing, spacing before the percent sign.
@@ -47,8 +47,8 @@ def flat(d, p=""):
         if k.startswith("_"): continue
         out |= flat(v, f"{p}{k}.") if isinstance(v, dict) else {f"{p}{k}"}
     return out
-a=flat(json.load(open("skills/shopify-monthly-report/i18n/en.json")))
-b=flat(json.load(open("skills/shopify-monthly-report/i18n/xx.json")))
+a=flat(json.load(open("skills/trente/i18n/en.json")))
+b=flat(json.load(open("skills/trente/i18n/xx.json")))
 print("missing:", sorted(a-b), "| extra:", sorted(b-a))
 EOF
 ```

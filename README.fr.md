@@ -1,6 +1,8 @@
-# Rapport mensuel Shopify
+# Trente
 
-Un plugin Claude qui transforme les données d'une boutique Shopify en rapport
+Le rapport mensuel Shopify, par [CINQ](https://agencecinq.com).
+
+Trente est un plugin Claude gratuit et open source qui transforme les données d'une boutique Shopify en rapport
 mensuel complet : une présentation PowerPoint aux couleurs de la boutique, qui
 se termine par le plan du mois prochain, à objectifs chiffrés.
 
@@ -41,6 +43,10 @@ boutique. Le rapport du mois suivant ouvre sur une slide de suivi qui confronte
 chaque objectif à ce qui a été mesuré : chaque engagement du plan est vérifié,
 un mois plus tard.
 
+**Vos données restent dans votre compte.** Les chiffres sont lus par le
+connecteur Shopify et traités dans votre compte Claude. Le plugin ne fait aucun
+appel réseau de lui-même, et rien ne parvient à CINQ.
+
 ## Prérequis
 
 - Le **connecteur Shopify** dans Claude.
@@ -64,7 +70,7 @@ installez le plugin :
 
 ```
 /plugin marketplace add agencecinq/shopify-monthly-report
-/plugin install shopify-monthly-report@agencecinq
+/plugin install trente@agencecinq
 ```
 
 Les deux étapes sont distinctes à dessein : la première indique à Claude où
@@ -102,8 +108,9 @@ Couverture, sommaire, l'essentiel du mois, ce qui ressort, le plan du mois
 dernier, le mois à venir, puis les chapitres : **Ventes** (évolution
 quotidienne, historique 24 mois, détail, canaux), **Acquisition** (tunnel,
 sources, pays et appareils), **Produits** (top ventes, gammes, déclinaisons,
-stock, retours), **Clients**, **Rentabilité**, **Marketing**, et une slide de
-méthode qui dit d'où vient chaque chiffre.
+stock, retours), **Clients**, **Rentabilité**, **Marketing**, une slide de
+méthode qui dit d'où vient chaque chiffre, et une slide de clôture sur Trente et
+CINQ, avec un lien pour nous joindre.
 
 Chaque chapitre porte une ligne qui explique ce que la métrique mesure et
 comment la lire. Les chapitres sans données ne sont pas générés.
@@ -117,7 +124,7 @@ Le formatage des nombres et des devises suit la langue, pas seulement les mots :
 le français écrit `35 396 €` et l'anglais `€35,396`.
 
 Pour ajouter une langue, copiez
-`skills/shopify-monthly-report/i18n/en.json`, traduisez les valeurs, gardez les
+`skills/trente/i18n/en.json`, traduisez les valeurs, gardez les
 clés, et ajustez le bloc `_format`. Les contributions sont bienvenues. Une clé
 manquante dans une traduction retombe sur l'anglais plutôt que d'afficher une
 clé brute dans la présentation de quelqu'un.
@@ -127,13 +134,13 @@ clé brute dans la présentation de quelqu'un.
 Le dépôt fournit un exemple complet sur une boutique fictive :
 
 ```bash
-cd skills/shopify-monthly-report/scripts
+cd skills/trente/scripts
 python3 build_report.py --data ../../../examples/report.example.json \
   --lang fr -o rapport.pptx
 ```
 
 Ce fichier sert aussi de référence pour le contrat de données, documenté dans
-[`report-schema.md`](skills/shopify-monthly-report/references/report-schema.md).
+[`report-schema.md`](skills/trente/references/report-schema.md).
 
 ## Fonctionnement
 

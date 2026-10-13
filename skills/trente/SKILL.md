@@ -1,5 +1,5 @@
 ---
-name: shopify-monthly-report
+name: trente
 description: >
   Builds a complete monthly performance report for a Shopify store as a
   PowerPoint deck in the store's own colours: sales, traffic, conversion,
@@ -13,7 +13,7 @@ description: >
   for a figures-based review of the store.
 ---
 
-# Shopify monthly report
+# Trente: the Shopify monthly report
 
 Build a complete report on a Shopify store's performance, composed around what
 that store actually is, dressed in its theme's colours, and closed by a costed
@@ -178,7 +178,7 @@ Check:
 ### 9. Build the deck
 
 ```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/shopify-monthly-report/scripts/build_report.py" \
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/trente/scripts/build_report.py" \
   --data report.json \
   --theme settings_data.json \
   --logo logo.png \
@@ -245,6 +245,10 @@ The script composes on its own from the data present and the profile.
 11. **Profitability**: gross margin
 12. **Marketing**: email and SMS, advertising
 13. Method and scope
+14. Trente, by CINQ: the closing slide
+
+The closing slide is part of the tool and the same in every deck. Do not
+remove it, reword it or move it.
 
 Profile `retention` lifts the Customers chapter to just after Sales; profile
 `acquisition` lifts Acquisition. Any chapter without data disappears, divider

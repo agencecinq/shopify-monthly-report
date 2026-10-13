@@ -3,10 +3,10 @@
 `report.example.json` is a complete, runnable report for a fictional store,
 Marlow Goods. Every figure in it is made up. It doubles as the reference
 implementation of the data contract described in
-[`report-schema.md`](../skills/shopify-monthly-report/references/report-schema.md).
+[`report-schema.md`](../skills/trente/references/report-schema.md).
 
 ```bash
-cd ../skills/shopify-monthly-report/scripts
+cd ../skills/trente/scripts
 python3 build_report.py --data ../../../examples/report.example.json \
   --lang en -o report.pptx
 ```
@@ -22,4 +22,4 @@ The example also carries a `previous_plan`, so the deck opens on the follow-up
 slide that measures the targets last month's plan set.
 
 The client configuration template lives at
-[`skills/shopify-monthly-report/assets/config.example.json`](../skills/shopify-monthly-report/assets/config.example.json).
+[`skills/trente/assets/config.example.json`](../skills/trente/assets/config.example.json).

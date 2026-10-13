@@ -46,6 +46,11 @@ TOP = 0.55             # haut du titre
 BODY_TOP = 1.72        # haut de la zone de contenu
 FOOT = 6.95
 
+# Where the closing slide sends the reader. The UTM tags let CINQ count the
+# visits that come from a deck.
+CINQ_URL = ("https://www.agencecinq.com/shopify/maintenance/"
+            "?utm_source=trente&utm_medium=deck&utm_campaign=monthly-report")
+
 NBSP = " "
 
 
@@ -160,6 +165,8 @@ class Deck:
                 para.space_before = Pt(item["space_before"])
             r = para.add_run()
             r.text = item["t"]
+            if item.get("link"):
+                r.hyperlink.address = item["link"]
             f = r.font
             f.size = Pt(item.get("size", size))
             f.bold = item.get("bold", bold)
@@ -867,6 +874,42 @@ def slide_divider(d, title, subtitle=None):
     d.footer(s, dark=True)
 
 
+def slide_cinq(d):
+    """
+    Closing slide, the same in every deck: who built the tool, where the data
+    goes, and how to reach CINQ. It sits after the method so it never
+    interrupts the report.
+    """
+    p = d.p
+    s = d.slide(dark=True)
+    ink, muted = p["invert_ink"], p["invert_muted"]
+
+    d.text(s, M, 0.95, W - 2 * M, 0.4, T("cinq.overline"), size=12,
+           bold=True, color=p["invert_accent"])
+    d.text(s, M, 1.4, W - 2 * M, 0.9, T("cinq.title"), size=36, bold=True,
+           color=ink, font=p["font_heading"])
+    d.text(s, M, 2.3, 9.6, 0.8, T("cinq.lead"), size=14, color=muted,
+           spacing=1.15)
+
+    gap = 0.5
+    col = (W - 2 * M - 2 * gap) / 3
+    for i, key in enumerate(("data", "plan", "help")):
+        x = M + i * (col + gap)
+        d.bar(s, x, 3.55, 0.5, 0.05, p["invert_accent"])
+        d.text(s, x, 3.75, col, 1.6,
+               [{"t": T(f"cinq.{key}_title"), "size": 14, "bold": True,
+                 "color": ink},
+                {"t": T(f"cinq.{key}_text"), "size": 11.5, "color": muted,
+                 "space_before": 6}], spacing=1.15)
+
+    d.text(s, M, 5.6, W - 2 * M, 0.9,
+           [{"t": T("cinq.cta"), "size": 18, "bold": True, "color": ink,
+             "link": CINQ_URL},
+            {"t": T("cinq.site"), "size": 13, "color": p["invert_accent"],
+             "link": CINQ_URL, "space_before": 4}])
+    d.footer(s, dark=True)
+
+
 def slide_table(d, title, columns, rows, caption=None, hint=None, aligns=None,
                 highlight_last=False, max_rows=11):
     if not rows:
@@ -1276,6 +1319,7 @@ def build(data, palette, logo, out):
     if blocks:
         slide_text_blocks(d, T("slides.methodology"), blocks,
                           hint=lecture(data, "methodology"))
+    slide_cinq(d)
 
     d.prs.save(out)
     return (out, [c["title"] for c in chapters], data.get("highlights") or [],

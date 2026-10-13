@@ -31,6 +31,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- A closing slide on Trente and CINQ: where the data goes, and a link to reach
+  CINQ.
 - SKILL.md checks python-pptx before collecting any data, and stops with one
   sentence when the environment cannot install it. The builder exits with an
   install hint instead of a traceback, and warns when the logo is left out for
@@ -43,6 +45,10 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- The plugin is now called Trente. It installs as `trente@agencecinq`, and the
+  skill lives in `skills/trente`. Reinstall it under the new name; the context
+  and plan stored in the shop metafield `shopify_report.context` are kept.
+- The cover says the deck was generated with Trente.
 - **The plan is now monthly.** Each workstream sets one target for next month,
   and next month's report measures that same target. The 90-day horizon and
   its three milestones are gone: only the first milestone was ever measured,
