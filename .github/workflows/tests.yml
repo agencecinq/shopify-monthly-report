@@ -1,0 +1,27 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install python-pptx Pillow pytest
+      - run: python -m pytest tests -q
+      - run: python tools/validate_plugin.py .
+      - name: Build the example in both languages
+        working-directory: skills/shopify-monthly-report/scripts
+        run: |
+          for lang in en fr; do
+            python build_report.py --data ../../../examples/report.example.json \
+              --theme ../../../examples/settings_data.example.json \
+              --lang "$lang" -o "/tmp/report-$lang.pptx" > "/tmp/out-$lang.json"
+            python -c "import json,sys; w=json.load(open('/tmp/out-$lang.json'))['warnings']; sys.exit(f'warnings: {w}' if w else 0)"
+          done

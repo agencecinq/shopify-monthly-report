@@ -10,7 +10,7 @@
     {
       "name": "shopify-monthly-report",
       "source": "./",
-      "description": "Builds a complete monthly Shopify performance report as a PowerPoint deck in the store's own colours, with a 90-day plan of measured targets.",
+      "description": "Builds a complete monthly Shopify performance report as a PowerPoint deck in the store's own colours, with next month's plan of measured targets.",
       "version": "1.0.1",
       "author": {
         "name": "Agence CINQ",

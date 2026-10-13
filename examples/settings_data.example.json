@@ -1,0 +1,24 @@
+{
+  "current": {
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#F6F1EA",
+          "text": "#2B2420",
+          "button": "#8A4B2A",
+          "button_label": "#FFFFFF"
+        }
+      },
+      "scheme-2": {
+        "settings": {
+          "background": "#2F4A3A",
+          "text": "#F6F1EA",
+          "button": "#C9A66B",
+          "button_label": "#2B2420"
+        }
+      }
+    },
+    "type_header_font": "playfair_display_n7",
+    "type_body_font": "assistant_n4"
+  }
+}

@@ -2,7 +2,7 @@
 
 Un plugin Claude qui transforme les données d'une boutique Shopify en rapport
 mensuel complet : une présentation PowerPoint aux couleurs de la boutique, qui
-se termine par un plan des 90 prochains jours à objectifs chiffrés.
+se termine par le plan du mois prochain, à objectifs chiffrés.
 
 Il est fait pour le marchand, pas pour l'analyste. Il choisit les chapitres qui
 ont du sens pour cette boutique-là, fait ressortir ce qui sort de l'ordinaire,
@@ -10,7 +10,7 @@ et dit sur quoi travailler ensuite, en chiffres vérifiables.
 
 [English](README.md)
 
-![Le plan des 90 jours](docs/plan.png)
+![Le mois à venir](docs/plan.png)
 
 ## Ce qui le distingue
 
@@ -24,9 +24,12 @@ gamme.
 
 **Il priorise sans conseiller.** Le plan classe les chantiers par ce qu'ils
 pèsent en euros, fixe un objectif pour chacun et calcule le gain : « ramener le
-taux de remboursement de 10,0 % à 8,0 % récupère 900 € par mois au volume
-actuel ». Chaque objectif est un niveau que la boutique a déjà atteint dans les
-six derniers mois, donc atteignable par construction.
+taux de remboursement de 10,0 % à 8,0 % conserve 900 € de ventes par mois au
+volume actuel ». Chaque objectif vaut pour le mois prochain et dit d'où il
+vient : le meilleur niveau atteint par la boutique dans les six derniers mois,
+plafonné à un dixième de mieux quand ce mois est ancien et hors de portée ; un
+seuil déclaré par le marchand ; la période de référence ; ou, à défaut, une
+convention annoncée.
 
 **Il n'énonce jamais de cause.** Aucune slide ne dit pourquoi un chiffre a
 bougé, et aucune ne prescrit de remède. Aucun benchmark sectoriel nulle part :
@@ -35,12 +38,21 @@ sur les seuils que le marchand a déclarés.
 
 **Il se souvient.** Le contexte et le plan sont stockés dans un métachamp de la
 boutique. Le rapport du mois suivant ouvre sur une slide de suivi qui confronte
-chaque jalon à ce qui a été mesuré.
+chaque objectif à ce qui a été mesuré : chaque engagement du plan est vérifié,
+un mois plus tard.
 
 ## Prérequis
 
-- Le **connecteur Shopify** dans Claude. C'est la seule dépendance obligatoire.
-- Python 3.9+ avec `python-pptx` et `Pillow`.
+- Le **connecteur Shopify** dans Claude.
+- **Python 3.9+ avec [python-pptx](https://python-pptx.readthedocs.io/)**,
+  dépendance obligatoire : la présentation est un fichier PowerPoint, et c'est
+  python-pptx qui le construit. Sans lui, aucun rapport n'est produit, et
+  Claude le dit avant de collecter la moindre donnée. Dans Claude Code, il
+  s'installe avec `pip` ; dans Claude Desktop et sur claude.ai, l'environnement
+  où Claude exécute du code doit l'avoir ou pouvoir l'installer.
+- **Pillow**, facultatif : il sert seulement à placer le logo de la boutique
+  sur la couverture. Sans lui, la présentation sort sans logo, et le build le
+  signale.
 
 Les connecteurs email, analytics et publicité sont facultatifs. Absents, les
 chapitres correspondants n'apparaissent pas, sans trou ni « non disponible ».
@@ -87,7 +99,7 @@ boutique : aucun fichier à conserver. Ensuite, une seule question par mois.
 ![Ce qui ressort ce mois-ci](docs/highlights.png)
 
 Couverture, sommaire, l'essentiel du mois, ce qui ressort, le plan du mois
-dernier, les 90 prochains jours, puis les chapitres : **Ventes** (évolution
+dernier, le mois à venir, puis les chapitres : **Ventes** (évolution
 quotidienne, historique 24 mois, détail, canaux), **Acquisition** (tunnel,
 sources, pays et appareils), **Produits** (top ventes, gammes, déclinaisons,
 stock, retours), **Clients**, **Rentabilité**, **Marketing**, et une slide de
@@ -133,7 +145,7 @@ est dans les scripts, pas dans la sortie du modèle.
 |---|---|
 | `scripts/brand.py` | Déduit une palette lisible du thème Shopify, gère les trois familles de thèmes et corrige les contrastes |
 | `scripts/highlights.py` | Calcule les constats de saillance à partir de règles chiffrées |
-| `scripts/priorities.py` | Construit le plan 90 jours : classement, objectifs, jalons |
+| `scripts/priorities.py` | Construit le plan du mois prochain : classement, objectifs, suivi |
 | `scripts/build_report.py` | Assemble la présentation |
 | `scripts/i18n.py` | Langue et formatage des nombres |
 

@@ -87,11 +87,17 @@ not ready.
 
 - One subject per pull request.
 - Build the example in both languages and say so in the description.
-- Run the structure check before pushing:
+- Run the tests and the structure check before pushing. CI runs both on every
+  pull request:
 
 ```bash
+pip install pytest
+python3 -m pytest tests
 python3 tools/validate_plugin.py .
 ```
+
+- A change to a rule in `highlights.py` or `priorities.py` comes with a test in
+  `tests/` that fails without it.
 
 - If you changed a layout, attach a screenshot of the slide. Overlaps only show
   up visually.

@@ -28,3 +28,7 @@ config.json
 venv/
 .DS_Store
 Thumbs.db
+
+# Plugin archives built by tools/package.py
+dist/
+.pytest_cache/

@@ -33,7 +33,7 @@
     "title": "Ce que contient ce rapport",
     "essentials": "L'essentiel",
     "essentials_blurb": "Les chiffres clés et ce qui ressort du mois",
-    "plan": "Plan des 90 jours",
+    "plan": "Plan du mois prochain",
     "plan_blurb": "Les chantiers prioritaires et leurs objectifs chiffrés",
     "method": "Méthode",
     "method_blurb": "Provenance des chiffres et périmètre couvert"
@@ -55,7 +55,7 @@
   "slides": {
     "kpis": "L'essentiel du mois",
     "highlights": "Ce qui ressort ce mois-ci",
-    "plan": "Le plan des 90 prochains jours",
+    "plan": "Le mois à venir",
     "follow_up": "Où en est le plan du mois dernier",
     "trend": "Évolution du chiffre d'affaires",
     "seasonality": "Le mois dans son historique",
@@ -78,8 +78,8 @@
   "hints": {
     "kpis": "Les quatre chiffres qui résument la période, avec leur écart aux périodes de référence.",
     "highlights": "Ce qui sort de l'ordinaire ce mois-ci, en chiffres. Aucun de ces constats n'explique une cause.",
-    "plan": "Les chantiers classés par ce qu'ils pèsent en euros. Chaque objectif est un niveau que la boutique a déjà atteint.",
-    "follow_up": "Les jalons fixés le mois dernier, confrontés aux chiffres de ce mois-ci.",
+    "plan": "Les chantiers classés par ce qu'ils pèsent en euros. Chaque objectif indique la référence dont il découle.",
+    "follow_up": "Les objectifs fixés le mois dernier, confrontés aux chiffres de ce mois-ci.",
     "trend": "Le chiffre d'affaires jour par jour. Un creux isolé est souvent un remboursement, pas une baisse de ventes.",
     "seasonality": "Le mois replacé dans les deux dernières années, pour distinguer un mouvement de fond d'un effet de saison.",
     "sales_detail": "Du prix affiché au chiffre d'affaires encaissé, poste par poste.",
@@ -101,8 +101,8 @@
   "labels": {
     "facts": "Repères factuels",
     "priority": "PRIORITÉ {n}",
-    "goal_90": "OBJECTIF À 90 JOURS",
-    "milestones": "Jalons mensuels : {values}",
+    "goal": "OBJECTIF DU MOIS PROCHAIN",
+    "reference": "Référence : {reference}",
     "gain_monthly": "Gain mensuel si atteint",
     "gain_develop": "Chiffre d'affaires à développer",
     "purchase_path": "PARCOURS D'ACHAT",
@@ -164,9 +164,9 @@
     "sell_through": "Taux d'écoulement",
     "project": "Chantier",
     "starting_point": "Point de départ",
-    "milestone": "Jalon visé",
+    "target": "Objectif visé",
     "measured": "Mesuré ce mois-ci",
-    "milestone_met": "Jalon tenu"
+    "target_met": "Objectif tenu"
   },
   "sales_detail": {
     "gross_sales": "Ventes brutes",
@@ -190,8 +190,8 @@
     "returns": "Montants en valeur absolue. Un remboursement est rattaché à sa date de traitement, pas à la date de la commande d'origine.",
     "traffic": "Une session est une visite interrompue après 30 minutes d'inactivité, mesurée sur la boutique en ligne uniquement.",
     "margin": "La marge brute ne déduit ni les frais de transport, ni les commissions de paiement, ni les coûts publicitaires.",
-    "plan": "Les objectifs visent un niveau que la boutique a déjà atteint sur les six derniers mois. Quand ce niveau est trop ancien pour servir de cible, l'objectif est ramené à trois dixièmes d'amélioration. Les gains sont calculés au volume de la période.",
-    "follow_up": "Jalon visé : première étape mensuelle du plan établi le mois précédent. Un jalon non tenu ne dit rien de la cause."
+    "plan": "Chaque objectif indique sa référence : le meilleur niveau des six derniers mois, plafonné à un dixième de mieux quand ce mois est ancien et hors de portée ; un seuil déclaré par la boutique ; la période de référence ; ou un palier annoncé. Chaque objectif vaut pour le mois prochain et sera mesuré dans le rapport suivant. Les gains sont calculés au volume de la période.",
+    "follow_up": "Objectif visé : le niveau que le plan du mois dernier fixait pour ce mois-ci. Un objectif non tenu ne dit rien de la cause."
   },
   "highlights": {
     "tags": {
@@ -253,7 +253,7 @@
     },
     "returns_finding": "{amount} remboursés sur la période, soit {rate} des ventes brutes, environ {annual} sur douze mois au rythme actuel.",
     "returns_goal": "Ramener le taux de remboursement à {target}",
-    "conversion_finding": "{rate} de conversion sur la période, contre {target} au meilleur mois des six derniers.",
+    "conversion_finding": "{rate} de conversion sur la période, contre {best} au meilleur mois des six derniers.",
     "conversion_goal": "Revenir à {target} de conversion",
     "conversion_note": "Gain estimé à trafic constant ({sessions} sessions) et panier moyen constant ({aov}).",
     "margin_finding": "{rate} de marge brute, contre {ref} sur la période de référence.",
@@ -267,14 +267,15 @@
     "concentration_goal": "Ramener la part des trois premiers à {target}",
     "concentration_note": "À ventes constantes sur ces trois produits, cela revient à porter le reste du catalogue de {current} à {goal} par mois.",
     "ref_best_six": "meilleur niveau des six derniers mois",
-    "ref_capped": "trois dixièmes de mieux qu'aujourd'hui, le meilleur mois de la fenêtre étant trop ancien pour servir de cible",
-    "ref_convention": "réduction d'un cinquième, faute d'historique exploitable",
+    "ref_capped": "un dixième de mieux qu'aujourd'hui, le meilleur mois de la fenêtre étant trop ancien pour servir d'objectif le mois prochain",
+    "ref_convention": "réduction d'un dixième, faute d'historique exploitable",
     "ref_declared": "seuil déclaré par la boutique",
+    "ref_declared_capped": "un dixième de mieux qu'aujourd'hui, le seuil déclaré par la boutique étant hors de portée en un mois",
     "ref_period": "niveau de la période de référence",
-    "ref_step": "palier de cinq points"
+    "ref_step": "palier de deux points"
   },
   "methodology": {
-    "plan_title": "Plan des 90 jours",
-    "plan_text": "Les chantiers sont classés par le montant qu'ils représentent. Les objectifs reprennent un niveau déjà atteint par la boutique sur les six derniers mois, et les gains sont calculés au volume de la période. Aucune cause n'est avancée."
+    "plan_title": "Plan du mois prochain",
+    "plan_text": "Les chantiers sont classés par le montant qu'ils représentent. Chaque objectif vaut pour le mois prochain, indique la référence dont il découle et sera mesuré dans le rapport suivant. Les gains sont calculés au volume de la période. Aucune cause n'est avancée."
   }
 }

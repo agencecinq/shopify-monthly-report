@@ -1,8 +1,8 @@
 # Shopify monthly report
 
 A Claude plugin that turns a Shopify store's data into a complete monthly
-report: a PowerPoint deck in the store's own colours, ending with a 90-day plan
-of measured targets.
+report: a PowerPoint deck in the store's own colours, ending with next month's
+plan of measured targets.
 
 It is built for the merchant, not the analyst. It picks the chapters that make
 sense for that particular store, surfaces what stands out, and says what to
@@ -10,7 +10,7 @@ work on next, in figures anyone can check.
 
 [Français](README.fr.md)
 
-![The 90-day plan](docs/plan.png)
+![The month ahead](docs/plan.png)
 
 ## What makes it different
 
@@ -23,9 +23,11 @@ and colours; a 2,000-product catalogue is presented by product line.
 
 **It prioritises without advising.** The plan ranks workstreams by what they are
 worth in money, sets a target for each, and calculates the gain: "bringing the
-refund rate from 10.0% to 8.0% recovers 900 per month at current volume". Every
-target is a level the store has already reached in the last six months, so it
-is reachable by construction.
+refund rate from 10.0% to 8.0% keeps 900 of sales per month at current volume".
+Every target is set for next month and names where it comes from: the best
+level the store reached in the last six months, capped at a one-tenth
+improvement when that month is old and out of reach; a threshold the merchant
+declared; the reference period; or, failing all of these, a stated convention.
 
 **It never states a cause.** No slide says why a number moved, and none
 prescribes a remedy. There is no industry benchmark anywhere: everything rests
@@ -34,12 +36,19 @@ the merchant declared.
 
 **It remembers.** The context and the plan are stored in a metafield on the
 store itself. Next month's report opens on a follow-up slide comparing each
-milestone to what was actually measured.
+target to what was actually measured: every commitment the plan makes is
+checked, a month later.
 
 ## Requirements
 
-- The **Shopify connector** in Claude. That is the only hard dependency.
-- Python 3.9+ with `python-pptx` and `Pillow`.
+- The **Shopify connector** in Claude.
+- **Python 3.9+ with [python-pptx](https://python-pptx.readthedocs.io/)**, a
+  hard dependency: the deck is a PowerPoint file and python-pptx builds it.
+  Without it no report is produced, and Claude says so before collecting any
+  data. In Claude Code it installs with `pip`; in Claude Desktop and claude.ai,
+  the environment Claude runs code in must have it or be able to install it.
+- **Pillow**, optional: it only places the store's logo on the cover. Without
+  it the deck ships without a logo, and the build says so.
 
 Email, analytics and advertising connectors are optional. When they are absent
 the matching chapters simply do not appear, with no gap and no "not available".
@@ -85,7 +94,7 @@ there is no file to keep. After that, one extra question per month, no more.
 ![What stands out this month](docs/highlights.png)
 
 Cover, table of contents, the month at a glance, what stands out, last month's
-plan, the next 90 days, then the chapters: **Sales** (daily trend, 24-month
+plan, the month ahead, then the chapters: **Sales** (daily trend, 24-month
 history, breakdown, channels), **Acquisition** (funnel, sources, countries and
 devices), **Products** (best sellers, lines, variants, stock, returns),
 **Customers**, **Profitability**, **Marketing**, and a method slide saying where
@@ -130,7 +139,7 @@ the scripts, not in the model's output.
 |---|---|
 | `scripts/brand.py` | Derives a readable palette from the Shopify theme, handling the three families of themes and fixing contrast |
 | `scripts/highlights.py` | Computes the salience findings from numeric rules |
-| `scripts/priorities.py` | Builds the 90-day plan: ranking, targets, milestones |
+| `scripts/priorities.py` | Builds next month's plan: ranking, targets, follow-up |
 | `scripts/build_report.py` | Assembles the deck |
 | `scripts/i18n.py` | Language and number formatting |
 

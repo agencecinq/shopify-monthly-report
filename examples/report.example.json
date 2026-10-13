@@ -220,7 +220,8 @@
   {
    "label": "Direct or unidentified",
    "orders": 148,
-   "sales": 24100.0
+   "sales": 24100.0,
+   "unattributed": true
   },
   {
    "label": "Search",
@@ -521,98 +522,122 @@
  "seasonality": [
   {
    "label": "Sep 24",
+   "month": "2024-09",
    "value": 18200.0
   },
   {
    "label": "Oct 24",
+   "month": "2024-10",
    "value": 21400.0
   },
   {
    "label": "Nov 24",
+   "month": "2024-11",
    "value": 39800.0
   },
   {
    "label": "Dec 24",
+   "month": "2024-12",
    "value": 52100.0
   },
   {
    "label": "Jan 25",
+   "month": "2025-01",
    "value": 24600.0
   },
   {
    "label": "Feb 25",
+   "month": "2025-02",
    "value": 22900.0
   },
   {
    "label": "Mar 25",
+   "month": "2025-03",
    "value": 27300.0
   },
   {
    "label": "Apr 25",
+   "month": "2025-04",
    "value": 29800.0
   },
   {
    "label": "May 25",
+   "month": "2025-05",
    "value": 31200.0
   },
   {
    "label": "Jun 25",
+   "month": "2025-06",
    "value": 28700.0
   },
   {
    "label": "Jul 25",
+   "month": "2025-07",
    "value": 30100.0
   },
   {
    "label": "Aug 25",
+   "month": "2025-08",
    "value": 31500.0
   },
   {
    "label": "Sep 25",
+   "month": "2025-09",
    "value": 33800.0
   },
   {
    "label": "Oct 25",
+   "month": "2025-10",
    "value": 36200.0
   },
   {
    "label": "Nov 25",
+   "month": "2025-11",
    "value": 61400.0
   },
   {
    "label": "Dec 25",
+   "month": "2025-12",
    "value": 74900.0
   },
   {
    "label": "Jan 26",
+   "month": "2026-01",
    "value": 35100.0
   },
   {
    "label": "Feb 26",
+   "month": "2026-02",
    "value": 33400.0
   },
   {
    "label": "Mar 26",
+   "month": "2026-03",
    "value": 36800.0
   },
   {
    "label": "Apr 26",
+   "month": "2026-04",
    "value": 39900.0
   },
   {
    "label": "May 26",
+   "month": "2026-05",
    "value": 44200.0
   },
   {
    "label": "Jun 26",
+   "month": "2026-06",
    "value": 41600.0
   },
   {
    "label": "Jul 26",
+   "month": "2026-07",
    "value": 46800.0
   },
   {
    "label": "Aug 26",
+   "month": "2026-08",
    "value": 42000.0
   }
  ],
@@ -620,125 +645,149 @@
   "returns": [
    {
     "label": "Sep 25",
+    "month": "2025-09",
     "gross_sales": 36233.6,
     "reversals": -1992.85
    },
    {
     "label": "Oct 25",
+    "month": "2025-10",
     "gross_sales": 38806.4,
     "reversals": -2289.58
    },
    {
     "label": "Nov 25",
+    "month": "2025-11",
     "gross_sales": 65820.8,
     "reversals": -4146.71
    },
    {
     "label": "Dec 25",
+    "month": "2025-12",
     "gross_sales": 80292.8,
     "reversals": -5379.62
    },
    {
     "label": "Jan 26",
+    "month": "2026-01",
     "gross_sales": 37627.2,
     "reversals": -2671.53
    },
    {
     "label": "Feb 26",
+    "month": "2026-02",
     "gross_sales": 35804.8,
     "reversals": -2685.36
    },
    {
     "label": "Mar 26",
+    "month": "2026-03",
     "gross_sales": 39449.6,
     "reversals": -3116.52
    },
    {
     "label": "Apr 26",
+    "month": "2026-04",
     "gross_sales": 42772.8,
     "reversals": -3550.14
    },
    {
     "label": "May 26",
+    "month": "2026-05",
     "gross_sales": 47382.4,
     "reversals": -4122.27
    },
    {
     "label": "Jun 26",
+    "month": "2026-06",
     "gross_sales": 44595.2,
     "reversals": -4058.16
    },
    {
     "label": "Jul 26",
-    "gross_sales": 50169.6,
-    "reversals": -4766.11
+    "month": "2026-07",
+    "gross_sales": 48900.0,
+    "reversals": -3800.0
    },
    {
     "label": "Aug 26",
-    "gross_sales": 45024.0,
-    "reversals": -4457.38
+    "month": "2026-08",
+    "gross_sales": 45000.0,
+    "reversals": -4500.0
    }
   ],
   "conversion": [
    {
     "label": "Sep 25",
+    "month": "2025-09",
     "sessions": 14000,
     "conversion_rate": 0.0182
    },
    {
     "label": "Oct 25",
+    "month": "2025-10",
     "sessions": 14340,
     "conversion_rate": 0.0178
    },
    {
     "label": "Nov 25",
+    "month": "2025-11",
     "sessions": 14680,
     "conversion_rate": 0.0174
    },
    {
     "label": "Dec 25",
+    "month": "2025-12",
     "sessions": 15020,
     "conversion_rate": 0.017
    },
    {
     "label": "Jan 26",
+    "month": "2026-01",
     "sessions": 15360,
     "conversion_rate": 0.0166
    },
    {
     "label": "Feb 26",
+    "month": "2026-02",
     "sessions": 15700,
     "conversion_rate": 0.0162
    },
    {
     "label": "Mar 26",
+    "month": "2026-03",
     "sessions": 16040,
     "conversion_rate": 0.0158
    },
    {
     "label": "Apr 26",
+    "month": "2026-04",
     "sessions": 16380,
     "conversion_rate": 0.0154
    },
    {
     "label": "May 26",
+    "month": "2026-05",
     "sessions": 16720,
     "conversion_rate": 0.015
    },
    {
     "label": "Jun 26",
+    "month": "2026-06",
     "sessions": 17060,
     "conversion_rate": 0.0146
    },
    {
     "label": "Jul 26",
-    "sessions": 17400,
-    "conversion_rate": 0.0142
+    "month": "2026-07",
+    "sessions": 16400,
+    "conversion_rate": 0.0172
    },
    {
     "label": "Aug 26",
-    "sessions": 17740,
-    "conversion_rate": 0.0138
+    "month": "2026-08",
+    "sessions": 17900,
+    "conversion_rate": 0.0145
    }
   ]
  },
@@ -777,5 +826,36 @@
    "title": "Data source",
    "text": "Shopify Analytics, queried on 14 September 2026. Figures may differ slightly from the Shopify admin depending on time zone and channel scope."
   }
- ]
+ ],
+ "previous_plan": {
+  "period": "July 2026",
+  "generated_on": "14 August 2026",
+  "workstreams": [
+   {
+    "key": "basket",
+    "title": "Average order value",
+    "unit": "money",
+    "current": 160.82,
+    "target": 163.88,
+    "monthly_gain": 890.0
+   },
+   {
+    "key": "catalogue_concentration",
+    "title": "Catalogue concentration",
+    "unit": "rate",
+    "current": 0.64,
+    "target": 0.62,
+    "monthly_gain": 960.0
+   },
+   {
+    "key": "source_dependency",
+    "title": "Dependence on one source",
+    "unit": "rate",
+    "subject": "Search",
+    "current": 0.668,
+    "target": 0.648,
+    "monthly_gain": 640.0
+   }
+  ]
+ }
 }

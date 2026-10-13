@@ -33,7 +33,7 @@
     "title": "What this report covers",
     "essentials": "The essentials",
     "essentials_blurb": "Headline figures and what stands out this month",
-    "plan": "90-day plan",
+    "plan": "Next month's plan",
     "plan_blurb": "Priority workstreams and their measured targets",
     "method": "Method",
     "method_blurb": "Where the figures come from and what they cover"
@@ -55,7 +55,7 @@
   "slides": {
     "kpis": "The month at a glance",
     "highlights": "What stands out this month",
-    "plan": "The next 90 days",
+    "plan": "The month ahead",
     "follow_up": "Where last month's plan stands",
     "trend": "Revenue over the period",
     "seasonality": "The month in context",
@@ -78,8 +78,8 @@
   "hints": {
     "kpis": "The four figures that sum up the period, with their gap to the reference periods.",
     "highlights": "What stands out this month, in figures. None of these findings explains a cause.",
-    "plan": "Workstreams ranked by what they are worth. Every target is a level the store has already reached.",
-    "follow_up": "Last month's milestones, measured against this month's figures.",
+    "plan": "Workstreams ranked by what they are worth. Each target names the reference it was set from.",
+    "follow_up": "Last month's targets, measured against this month's figures.",
     "trend": "Revenue day by day. An isolated dip is usually a refund, not a drop in sales.",
     "seasonality": "The month set against the last two years, to tell a trend from a seasonal effect.",
     "sales_detail": "From list price to money taken, line by line.",
@@ -101,8 +101,8 @@
   "labels": {
     "facts": "Measured facts",
     "priority": "PRIORITY {n}",
-    "goal_90": "90-DAY TARGET",
-    "milestones": "Monthly milestones: {values}",
+    "goal": "TARGET FOR NEXT MONTH",
+    "reference": "Reference: {reference}",
     "gain_monthly": "Monthly gain if met",
     "gain_develop": "Revenue to grow elsewhere",
     "purchase_path": "PURCHASE PATH",
@@ -164,9 +164,9 @@
     "sell_through": "Sell-through",
     "project": "Workstream",
     "starting_point": "Starting point",
-    "milestone": "Milestone",
+    "target": "Target",
     "measured": "Measured this month",
-    "milestone_met": "Milestone met"
+    "target_met": "Target met"
   },
   "sales_detail": {
     "gross_sales": "Gross sales",
@@ -190,8 +190,8 @@
     "returns": "Amounts shown as absolute values. A refund is dated when it was processed, not when the original order was placed.",
     "traffic": "A session is a visit that ends after 30 minutes of inactivity, measured on the online store only.",
     "margin": "Gross profit deducts neither shipping costs, nor payment fees, nor advertising spend.",
-    "plan": "Targets aim at a level the store has already reached in the last six months. When that level is too old to serve as a target, the goal is capped at a three-tenths improvement. Gains are calculated at the period's volume.",
-    "follow_up": "Milestone: the first monthly step of the plan set last month. A missed milestone says nothing about the cause."
+    "plan": "Each target states its reference: the best level of the last six months, capped at a one-tenth improvement when that month is old and out of reach; a threshold declared by the store; the reference period; or a stated step. Every target is set for next month and measured in next month's report. Gains are calculated at the period's volume.",
+    "follow_up": "Target: the level last month's plan set for this month. A missed target says nothing about the cause."
   },
   "highlights": {
     "tags": {
@@ -253,7 +253,7 @@
     },
     "returns_finding": "{amount} refunded over the period, or {rate} of gross sales, about {annual} over twelve months at the current rate.",
     "returns_goal": "Bring the refund rate down to {target}",
-    "conversion_finding": "{rate} conversion over the period, against {target} in the best of the last six months.",
+    "conversion_finding": "{rate} conversion over the period, against {best} in the best of the last six months.",
     "conversion_goal": "Return to {target} conversion",
     "conversion_note": "Gain estimated at constant traffic ({sessions} sessions) and constant average order value ({aov}).",
     "margin_finding": "{rate} gross margin, against {ref} over the reference period.",
@@ -267,14 +267,15 @@
     "concentration_goal": "Bring the top three share down to {target}",
     "concentration_note": "At constant sales on those three products, this means growing the rest of the catalogue from {current} to {goal} per month.",
     "ref_best_six": "best level of the last six months",
-    "ref_capped": "three tenths better than today, the best month in the window being too old to serve as a target",
-    "ref_convention": "a one-fifth reduction, for want of usable history",
+    "ref_capped": "one tenth better than today, the best month in the window being too old to serve as next month's target",
+    "ref_convention": "a one-tenth reduction, for want of usable history",
     "ref_declared": "threshold declared by the store",
+    "ref_declared_capped": "one tenth better than today, the threshold declared by the store being out of reach in one month",
     "ref_period": "level of the reference period",
-    "ref_step": "five-point step"
+    "ref_step": "two-point step"
   },
   "methodology": {
-    "plan_title": "90-day plan",
-    "plan_text": "Workstreams are ranked by the amount they represent. Targets take a level the store has already reached in the last six months, and gains are calculated at the period's volume. No cause is put forward."
+    "plan_title": "Next month's plan",
+    "plan_text": "Workstreams are ranked by the amount they represent. Each target is set for next month, states the reference it was set from, and is measured in next month's report. Gains are calculated at the period's volume. No cause is put forward."
   }
 }
