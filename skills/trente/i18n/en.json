@@ -50,7 +50,9 @@
     "profitability": "Profitability",
     "profitability_blurb": "What is left once the goods are paid for",
     "marketing": "Marketing",
-    "marketing_blurb": "What email and advertising brought in"
+    "marketing_blurb": "What email and advertising brought in",
+    "custom": "Your metrics",
+    "custom_blurb": "The views you asked to see in every report"
   },
   "slides": {
     "kpis": "The month at a glance",
@@ -277,6 +279,36 @@
   "methodology": {
     "plan_title": "Next month's plan",
     "plan_text": "Workstreams are ranked by the amount they represent. Each target is set for next month, states the reference it was set from, and is measured in next month's report. Gains are calculated at the period's volume. No cause is put forward."
+  },
+  "custom": {
+    "caption": "Permanent metric, added on {date} at your request. It appears in every report until you ask for it to be removed.",
+    "source": "Source: {source}.",
+    "as_of": "On {date}",
+    "at_least": "{value} or more",
+    "first_report": "First measure: the change will show from the next report.",
+    "item": "Item",
+    "value": "Value",
+    "change": "Change",
+    "department": "Department",
+    "idf": "Île-de-France",
+    "per_100k": "{measure} per 100,000 inhabitants",
+    "per_100k_short": "Per 100,000",
+    "national": "France as a whole: {value} per 100,000 inhabitants",
+    "zero": "None",
+    "no_population": "No population",
+    "top": "Top ten departments",
+    "outside": "{count} outside the mapped departments (abroad, Monaco, overseas collectivities, missing postcode).",
+    "map_sources": "Population: INSEE, reference populations {year}. Outlines: IGN Admin Express.",
+    "europe": "Europe",
+    "country": "Country",
+    "per_million": "{measure} per million inhabitants",
+    "per_million_short": "Per million",
+    "countries": "{value} {measure} in {count} countries",
+    "top_countries": "Top ten countries",
+    "world_sources": "Outlines: Natural Earth.",
+    "world_population": "Population: World Bank, {year}.",
+    "world_overseas": "The overseas departments are counted with France.",
+    "outside_world": "{count} with no country on the map."
   },
   "cinq": {
     "overline": "Trente, by CINQ",

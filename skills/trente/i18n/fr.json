@@ -50,7 +50,9 @@
     "profitability": "Rentabilité",
     "profitability_blurb": "Ce qui reste une fois les produits payés",
     "marketing": "Marketing",
-    "marketing_blurb": "Ce que l'email et la publicité ont rapporté"
+    "marketing_blurb": "Ce que l'email et la publicité ont rapporté",
+    "custom": "Vos indicateurs",
+    "custom_blurb": "Les vues que vous avez demandé à retrouver dans chaque rapport"
   },
   "slides": {
     "kpis": "L'essentiel du mois",
@@ -277,6 +279,36 @@
   "methodology": {
     "plan_title": "Plan du mois prochain",
     "plan_text": "Les chantiers sont classés par le montant qu'ils représentent. Chaque objectif vaut pour le mois prochain, indique la référence dont il découle et sera mesuré dans le rapport suivant. Les gains sont calculés au volume de la période. Aucune cause n'est avancée."
+  },
+  "custom": {
+    "caption": "Indicateur permanent, ajouté le {date} à votre demande. Il figure dans chaque rapport jusqu'à ce que vous demandiez de le retirer.",
+    "source": "Source : {source}.",
+    "as_of": "Au {date}",
+    "at_least": "{value} ou plus",
+    "first_report": "Première mesure : l'évolution apparaîtra dès le prochain rapport.",
+    "item": "Élément",
+    "value": "Valeur",
+    "change": "Évol.",
+    "department": "Département",
+    "idf": "Île-de-France",
+    "per_100k": "{measure} pour 100 000 habitants",
+    "per_100k_short": "Pour 100 000",
+    "national": "France entière : {value} pour 100 000 habitants",
+    "zero": "Aucune",
+    "no_population": "Population n/d",
+    "top": "Les dix premiers départements",
+    "outside": "{count} hors des départements cartographiés (étranger, Monaco, collectivités d'outre-mer, code postal absent).",
+    "map_sources": "Population : INSEE, populations de référence {year}. Contours : IGN Admin Express.",
+    "europe": "Europe",
+    "country": "Pays",
+    "per_million": "{measure} par million d'habitants",
+    "per_million_short": "Par million",
+    "countries": "{value} {measure} dans {count} pays",
+    "top_countries": "Les dix premiers pays",
+    "world_sources": "Contours : Natural Earth.",
+    "world_population": "Population : Banque mondiale, {year}.",
+    "world_overseas": "Les départements d'outre-mer sont comptés avec la France.",
+    "outside_world": "{count} sans pays sur la carte."
   },
   "cinq": {
     "overline": "Trente, par CINQ",
