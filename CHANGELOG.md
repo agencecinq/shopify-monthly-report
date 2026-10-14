@@ -6,12 +6,6 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
-### Added
-
-- `.claude-plugin/icon.png`, the listing icon for the plugin directory.
-- A "What it reads, runs and writes" section in both READMEs, for the
-  directory's security review.
-
 ## [2.0.0] - 2026-10-14
 
 The plugin is now Trente. Reinstall it under its new name: the context and
@@ -42,6 +36,9 @@ plan stored in each shop's metafield carry over.
 
 ### Added
 
+- A listing icon for the plugin directory.
+- A "What it reads, runs and writes" section in both READMEs, for the
+  directory's security review.
 - Permanent metrics. A merchant can ask for a view once and find it in every
   report: a `kpi`, `bars`, `table` or `map_fr` view over queries stored as a
   recipe in `context.custom_metrics`. They are drawn in a "Your metrics"
