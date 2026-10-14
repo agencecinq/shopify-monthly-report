@@ -172,9 +172,22 @@ declined to answer, so they are not asked again.
     "period": "August 2026",
     "workstreams": [{"key": "returns", "title": "Refunds", "unit": "rate",
                      "current": 0.1704, "target": 0.1534, "monthly_gain": 1955}]
-  }
+  },
+  "custom_metrics": [
+    {"id": "subscribers", "title": "Customers tagged subscriber",
+     "request": "the number of customers tagged subscriber",
+     "added": "12 July 2026", "view": "kpi", "kind": "stock", "unit": "number",
+     "queries": [{"name": "count", "tool": "graphql_query",
+                  "query": "query { customersCount(query: \"tag:'subscriber'\") { count precision } }"}],
+     "value": {"query": "count", "field": "count"},
+     "last": {"period": "2026-08", "label": "August 2026", "value": 131}}
+  ]
 }
 ```
+
+`custom_metrics` holds the permanent metrics the merchant asked for, as recipes
+without their figures. It is written only on the merchant's request; see
+`custom-metrics.md`.
 
 `previous_plan` is written by the script on every report, through the `--state`
 option. It is what feeds the next month's follow-up slide: without it, the plan
@@ -192,6 +205,7 @@ is only an intention nobody ever verifies.
 | `acceptable_return_rate` | Becomes the refunds workstream target when it is within reach in one month; no target goes below it, and a store within it gets no refunds workstream. |
 | `excluded_channels` | The named channels drop out of the channels chapter and the totals, and the methodology says so. |
 | `previous_plan` | Feeds the follow-up slide. |
+| `custom_metrics` | Adds one slide per recipe, in a "Your metrics" chapter at the end. |
 
 Carry these fields into `report.json` under `context`.
 

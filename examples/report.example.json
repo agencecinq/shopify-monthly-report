@@ -857,5 +857,435 @@
     "monthly_gain": 640.0
    }
   ]
- }
+ },
+ "custom_metrics": [
+  {
+   "id": "orders-by-department",
+   "title": "Orders per 100,000 inhabitants, by department",
+   "request": "a map of France by department with the number of orders per inhabitant",
+   "added": "12 July 2026",
+   "view": "map_fr",
+   "kind": "flow",
+   "unit": "number",
+   "source": "Shopify Analytics, orders by shipping postcode",
+   "queries": [
+    {
+     "name": "orders",
+     "tool": "run-analytics-query",
+     "query": "FROM sales SHOW orders, total_sales WHERE shipping_country_code IN ('FR', 'GP', 'MQ', 'GF', 'RE', 'YT') GROUP BY shipping_country_code, shipping_postal_code SINCE START UNTIL END COMPARE TO previous_period"
+    }
+   ],
+   "map": {
+    "query": "orders",
+    "postal": "shipping_postal_code",
+    "country": "shipping_country_code",
+    "field": "orders",
+    "compare_field": "comparison_orders__previous_period",
+    "measure": "Orders",
+    "per_capita": true
+   },
+   "data": {
+    "orders": [
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "75011",
+      "orders": 3,
+      "total_sales": 420.0,
+      "comparison_orders__previous_period": 2,
+      "comparison_total_sales__previous_period": 260.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "75015",
+      "orders": 1,
+      "total_sales": 160.0,
+      "comparison_orders__previous_period": 0,
+      "comparison_total_sales__previous_period": 0.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "92100",
+      "orders": 1,
+      "total_sales": 95.0,
+      "comparison_orders__previous_period": 1,
+      "comparison_total_sales__previous_period": 140.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "69003",
+      "orders": 2,
+      "total_sales": 310.0,
+      "comparison_orders__previous_period": 1,
+      "comparison_total_sales__previous_period": 150.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "13008",
+      "orders": 1,
+      "total_sales": 120.0,
+      "comparison_orders__previous_period": 1,
+      "comparison_total_sales__previous_period": 90.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "33000",
+      "orders": 1,
+      "total_sales": 180.0,
+      "comparison_orders__previous_period": 0,
+      "comparison_total_sales__previous_period": 0.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "31000",
+      "orders": 1,
+      "total_sales": 85.0,
+      "comparison_orders__previous_period": 1,
+      "comparison_total_sales__previous_period": 160.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "44000",
+      "orders": 1,
+      "total_sales": 140.0,
+      "comparison_orders__previous_period": 0,
+      "comparison_total_sales__previous_period": 0.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "67000",
+      "orders": 1,
+      "total_sales": 95.0,
+      "comparison_orders__previous_period": 1,
+      "comparison_total_sales__previous_period": 120.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "06000",
+      "orders": 1,
+      "total_sales": 210.0,
+      "comparison_orders__previous_period": 0,
+      "comparison_total_sales__previous_period": 0.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "59000",
+      "orders": 1,
+      "total_sales": 70.0,
+      "comparison_orders__previous_period": 1,
+      "comparison_total_sales__previous_period": 95.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "35000",
+      "orders": 1,
+      "total_sales": 150.0,
+      "comparison_orders__previous_period": 0,
+      "comparison_total_sales__previous_period": 0.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "74000",
+      "orders": 1,
+      "total_sales": 115.0,
+      "comparison_orders__previous_period": 1,
+      "comparison_total_sales__previous_period": 130.0
+     },
+     {
+      "shipping_country_code": "FR",
+      "shipping_postal_code": "20000",
+      "orders": 1,
+      "total_sales": 150.0,
+      "comparison_orders__previous_period": 0,
+      "comparison_total_sales__previous_period": 0.0
+     }
+    ]
+   }
+  },
+  {
+   "id": "orders-by-country",
+   "title": "Orders by country",
+   "request": "a world map with the number of orders per country",
+   "added": "14 September 2026",
+   "view": "map_world",
+   "kind": "flow",
+   "unit": "number",
+   "source": "Shopify Analytics, orders by shipping country",
+   "queries": [
+    {
+     "name": "countries",
+     "tool": "run-analytics-query",
+     "query": "FROM sales SHOW orders GROUP BY shipping_country_code SINCE START UNTIL END COMPARE TO previous_period"
+    }
+   ],
+   "map": {
+    "query": "countries",
+    "country": "shipping_country_code",
+    "field": "orders",
+    "compare_field": "comparison_orders__previous_period",
+    "measure": "Orders"
+   },
+   "data": {
+    "countries": [
+     {
+      "shipping_country_code": "GB",
+      "orders": 198,
+      "comparison_orders__previous_period": 224
+     },
+     {
+      "shipping_country_code": "IE",
+      "orders": 31,
+      "comparison_orders__previous_period": 33
+     },
+     {
+      "shipping_country_code": "FR",
+      "orders": 17,
+      "comparison_orders__previous_period": 13
+     },
+     {
+      "shipping_country_code": "DE",
+      "orders": 9,
+      "comparison_orders__previous_period": 12
+     },
+     {
+      "shipping_country_code": "NL",
+      "orders": 5,
+      "comparison_orders__previous_period": 9
+     }
+    ]
+   }
+  },
+  {
+   "id": "subscribers",
+   "title": "Customers tagged subscriber",
+   "request": "the number of customers tagged subscriber",
+   "added": "12 July 2026",
+   "view": "kpi",
+   "kind": "stock",
+   "unit": "number",
+   "source": "Shopify, customers tagged subscriber",
+   "queries": [
+    {
+     "name": "count",
+     "tool": "graphql_query",
+     "query": "query { customersCount(query: \"tag:'subscriber'\") { count precision } }"
+    },
+    {
+     "name": "orders",
+     "tool": "run-analytics-query",
+     "query": "FROM sales SHOW orders, total_sales WHERE customer_tags CONTAINS 'subscriber' SINCE START UNTIL END COMPARE TO previous_period"
+    }
+   ],
+   "value": {
+    "query": "count",
+    "field": "count"
+   },
+   "details": [
+    {
+     "label": "Their orders this month",
+     "unit": "number",
+     "value": {
+      "query": "orders",
+      "field": "orders",
+      "compare_field": "comparison_orders__previous_period"
+     }
+    },
+    {
+     "label": "Their sales this month",
+     "unit": "money",
+     "value": {
+      "query": "orders",
+      "field": "total_sales",
+      "compare_field": "comparison_total_sales__previous_period"
+     }
+    }
+   ],
+   "last": {
+    "period": "2026-07",
+    "label": "July 2026",
+    "value": 118
+   },
+   "data": {
+    "count": [
+     {
+      "count": 131,
+      "precision": "EXACT"
+     }
+    ],
+    "orders": [
+     {
+      "orders": 41,
+      "total_sales": 5400.0,
+      "comparison_orders__previous_period": 37,
+      "comparison_total_sales__previous_period": 4900.0
+     }
+    ]
+   }
+  },
+  {
+   "id": "discount-code-share",
+   "title": "Share of orders placed with a discount code",
+   "request": "the share of orders with a discount code",
+   "added": "14 September 2026",
+   "view": "kpi",
+   "kind": "flow",
+   "unit": "percent",
+   "source": "Shopify Analytics, orders",
+   "queries": [
+    {
+     "name": "all",
+     "tool": "run-analytics-query",
+     "query": "FROM sales SHOW orders SINCE START UNTIL END COMPARE TO previous_period"
+    },
+    {
+     "name": "coded",
+     "tool": "run-analytics-query",
+     "query": "FROM sales SHOW orders WHERE discount_code IS NOT NULL SINCE START UNTIL END COMPARE TO previous_period"
+    }
+   ],
+   "value": {
+    "num": {
+     "query": "coded",
+     "field": "orders",
+     "compare_field": "comparison_orders__previous_period"
+    },
+    "den": {
+     "query": "all",
+     "field": "orders",
+     "compare_field": "comparison_orders__previous_period"
+    }
+   },
+   "data": {
+    "all": [
+     {
+      "orders": 260,
+      "comparison_orders__previous_period": 291
+     }
+    ],
+    "coded": [
+     {
+      "orders": 47,
+      "comparison_orders__previous_period": 39
+     }
+    ]
+   }
+  },
+  {
+   "id": "discount-codes",
+   "title": "Orders by discount code",
+   "request": "the orders of each discount code",
+   "added": "14 September 2026",
+   "view": "bars",
+   "kind": "flow",
+   "unit": "number",
+   "source": "Shopify Analytics, orders",
+   "queries": [
+    {
+     "name": "codes",
+     "tool": "run-analytics-query",
+     "query": "FROM sales SHOW orders WHERE discount_code IS NOT NULL GROUP BY discount_code ORDER BY orders DESC LIMIT 10 SINCE START UNTIL END COMPARE TO previous_period"
+    }
+   ],
+   "rows": {
+    "query": "codes",
+    "label": "discount_code",
+    "label_title": "Code",
+    "field": "orders",
+    "compare_field": "comparison_orders__previous_period",
+    "limit": 8
+   },
+   "data": {
+    "codes": [
+     {
+      "discount_code": "WELCOME10",
+      "orders": 21,
+      "comparison_orders__previous_period": 18
+     },
+     {
+      "discount_code": "SUMMER15",
+      "orders": 14,
+      "comparison_orders__previous_period": 16
+     },
+     {
+      "discount_code": "NEWSLETTER",
+      "orders": 8,
+      "comparison_orders__previous_period": 5
+     },
+     {
+      "discount_code": "FRIENDS",
+      "orders": 4,
+      "comparison_orders__previous_period": 0
+     }
+    ]
+   }
+  },
+  {
+   "id": "collection-travel",
+   "title": "Sales of the Travel collection",
+   "request": "the revenue of the Travel collection",
+   "added": "14 September 2026",
+   "view": "kpi",
+   "kind": "flow",
+   "unit": "money",
+   "source": "Shopify Analytics, sales of the products in the Travel collection",
+   "queries": [
+    {
+     "name": "travel",
+     "tool": "run-analytics-query",
+     "query": "FROM sales SHOW total_sales, orders WHERE product_collection = 'Travel' SINCE START UNTIL END COMPARE TO previous_period"
+    },
+    {
+     "name": "all",
+     "tool": "run-analytics-query",
+     "query": "FROM sales SHOW total_sales SINCE START UNTIL END COMPARE TO previous_period"
+    }
+   ],
+   "value": {
+    "query": "travel",
+    "field": "total_sales",
+    "compare_field": "comparison_total_sales__previous_period"
+   },
+   "details": [
+    {
+     "label": "Orders containing it",
+     "unit": "number",
+     "value": {
+      "query": "travel",
+      "field": "orders",
+      "compare_field": "comparison_orders__previous_period"
+     }
+    },
+    {
+     "label": "Share of total sales",
+     "value": {
+      "num": {
+       "query": "travel",
+       "field": "total_sales",
+       "compare_field": "comparison_total_sales__previous_period"
+      },
+      "den": {
+       "query": "all",
+       "field": "total_sales",
+       "compare_field": "comparison_total_sales__previous_period"
+      }
+     }
+    }
+   ],
+   "data": {
+    "travel": [
+     {
+      "total_sales": 15800.0,
+      "orders": 79,
+      "comparison_total_sales__previous_period": 17100.0,
+      "comparison_orders__previous_period": 88
+     }
+    ],
+    "all": [
+     {
+      "total_sales": 42000.0,
+      "comparison_total_sales__previous_period": 46800.0
+     }
+    ]
+   }
+  }
+ ]
 }

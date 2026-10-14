@@ -43,6 +43,13 @@ boutique. Le rapport du mois suivant ouvre sur une slide de suivi qui confronte
 chaque objectif à ce qui a été mesuré : chaque engagement du plan est vérifié,
 un mois plus tard.
 
+**Il retient ce que vous voulez suivre.** Demandez une vue une fois, par
+exemple une carte de France des commandes pour 100 000 habitants par
+département, une carte du monde des commandes par pays, le nombre de clients portant un tag, la part des commandes passées
+avec un code promo ou le chiffre d'affaires d'une collection, et elle figure
+dans tous les rapports suivants. La recette est rangée dans le même métachamp,
+et vous pouvez la lister, la modifier ou la retirer.
+
 **Vos données restent dans votre compte.** Les chiffres sont lus par le
 connecteur Shopify et traités dans votre compte Claude. Le plugin ne fait aucun
 appel réseau de lui-même, et rien ne parvient à CINQ.
@@ -69,7 +76,7 @@ Le dépôt est sa propre marketplace de plugins. Dans Claude Code, ajoutez-la pu
 installez le plugin :
 
 ```
-/plugin marketplace add agencecinq/shopify-monthly-report
+/plugin marketplace add agencecinq/trente
 /plugin install trente@agencecinq
 ```
 
@@ -108,7 +115,8 @@ Couverture, sommaire, l'essentiel du mois, ce qui ressort, le plan du mois
 dernier, le mois à venir, puis les chapitres : **Ventes** (évolution
 quotidienne, historique 24 mois, détail, canaux), **Acquisition** (tunnel,
 sources, pays et appareils), **Produits** (top ventes, gammes, déclinaisons,
-stock, retours), **Clients**, **Rentabilité**, **Marketing**, une slide de
+stock, retours), **Clients**, **Rentabilité**, **Marketing**, **Vos
+indicateurs** (les indicateurs permanents que vous avez demandés), une slide de
 méthode qui dit d'où vient chaque chiffre, et une slide de clôture sur Trente et
 CINQ, avec un lien pour nous joindre.
 
@@ -169,3 +177,10 @@ saillance et prise en charge d'autres sources analytics sont les bienvenues.
 
 MIT, voir [LICENSE](LICENSE). Développé par
 [Agence CINQ](https://agencecinq.com).
+
+La carte de France embarque des données ouvertes sous Licence Ouverte (Etalab) :
+les contours des départements de l'IGN Admin Express, via
+[france-geojson](https://github.com/gregoiredavid/france-geojson), et les
+populations de référence de l'INSEE. La carte du monde embarque les contours
+des pays de [Natural Earth](https://www.naturalearthdata.com) (domaine public)
+et les populations de la Banque mondiale (CC BY 4.0).
