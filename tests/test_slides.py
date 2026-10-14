@@ -13,7 +13,7 @@ import sys
 import pytest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(ROOT, "skills", "shopify-monthly-report", "scripts"))
+sys.path.insert(0, os.path.join(ROOT, "skills", "trente", "scripts"))
 
 import build_slides  # noqa: E402
 from brand import build_palette  # noqa: E402

@@ -15,7 +15,7 @@ import sys
 import pytest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(ROOT, "skills", "shopify-monthly-report", "scripts"))
+sys.path.insert(0, os.path.join(ROOT, "skills", "trente", "scripts"))
 
 import highlights  # noqa: E402
 import priorities  # noqa: E402
@@ -314,7 +314,7 @@ def _flat(d, prefix=""):
 
 
 def test_catalogues_share_keys():
-    i18n = os.path.join(ROOT, "skills", "shopify-monthly-report", "i18n")
+    i18n = os.path.join(ROOT, "skills", "trente", "i18n")
     keys = {}
     for name in os.listdir(i18n):
         if name.endswith(".json"):

@@ -22,7 +22,7 @@
   },
   "cover": {
     "title": "Performance report",
-    "generated": "Generated on {date} · Shopify Analytics data",
+    "generated": "Generated on {date} with Trente · Shopify Analytics data",
     "agency": "Report generated with {agency}"
   },
   "footer": {
@@ -277,5 +277,18 @@
   "methodology": {
     "plan_title": "Next month's plan",
     "plan_text": "Workstreams are ranked by the amount they represent. Each target is set for next month, states the reference it was set from, and is measured in next month's report. Gains are calculated at the period's volume. No cause is put forward."
+  },
+  "cinq": {
+    "overline": "Trente, by CINQ",
+    "title": "This report was produced by Trente.",
+    "lead": "Trente is a free, open-source tool built by CINQ, a Shopify agency in Paris. It runs in your Claude account, on your store's data.",
+    "data_title": "Your data stays with you",
+    "data_text": "Figures are read from your store and processed in your Claude account. CINQ receives none of them.",
+    "plan_title": "The plan works for anyone",
+    "plan_text": "It says where to look and what it is worth, not how to do it. Your team or your current agency can pick it up.",
+    "help_title": "If you want a hand",
+    "help_text": "CINQ works with Shopify merchants on workstreams like these. It starts with a 30-minute call, with no commitment.",
+    "cta": "Talk your plan through with CINQ",
+    "site": "agencecinq.com"
   }
 }

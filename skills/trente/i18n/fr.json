@@ -22,7 +22,7 @@
   },
   "cover": {
     "title": "Rapport de performance",
-    "generated": "Généré le {date} · données Shopify Analytics",
+    "generated": "Généré le {date} avec Trente · données Shopify Analytics",
     "agency": "Rapport généré avec {agency}"
   },
   "footer": {
@@ -277,5 +277,18 @@
   "methodology": {
     "plan_title": "Plan du mois prochain",
     "plan_text": "Les chantiers sont classés par le montant qu'ils représentent. Chaque objectif vaut pour le mois prochain, indique la référence dont il découle et sera mesuré dans le rapport suivant. Les gains sont calculés au volume de la période. Aucune cause n'est avancée."
+  },
+  "cinq": {
+    "overline": "Trente, par CINQ",
+    "title": "Ce rapport a été produit par Trente.",
+    "lead": "Trente est un outil gratuit et open source, conçu par CINQ, agence Shopify à Paris. Il tourne dans votre compte Claude, sur les données de votre boutique.",
+    "data_title": "Vos données restent chez vous",
+    "data_text": "Les chiffres sont lus dans votre boutique et traités dans votre compte Claude. CINQ n'en reçoit aucun.",
+    "plan_title": "Le plan sert à n'importe qui",
+    "plan_text": "Il dit où regarder et ce que cela vaut, pas comment faire. Votre équipe ou votre prestataire actuel peut s'en saisir.",
+    "help_title": "Si vous voulez de l'aide",
+    "help_text": "CINQ accompagne des marchands Shopify sur ce type de chantiers. On commence par 30 minutes, sans engagement.",
+    "cta": "Parler de votre plan avec CINQ",
+    "site": "agencecinq.com"
   }
 }

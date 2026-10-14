@@ -6,7 +6,7 @@ Builds the plugin archive a merchant uploads in Claude Desktop or claude.ai
 Only what the plugin needs at run time goes in: the manifest, the skill, the
 licence and the READMEs. Tests, examples, screenshots and tooling stay out.
 
-    python3 tools/package.py            # writes dist/shopify-monthly-report-<version>.zip
+    python3 tools/package.py            # writes dist/trente-<version>.zip
 """
 
 import json
