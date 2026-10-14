@@ -15,8 +15,8 @@ import sys
 import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INCLUDE = [".claude-plugin/plugin.json", "skills", "LICENSE", "README.md",
-           "README.fr.md"]
+INCLUDE = [".claude-plugin/plugin.json", ".claude-plugin/icon.png", "skills",
+           "LICENSE", "README.md", "README.fr.md"]
 SKIP_DIRS = {"__pycache__", ".pytest_cache"}
 SKIP_EXT = {".pyc", ".pptx"}
 
