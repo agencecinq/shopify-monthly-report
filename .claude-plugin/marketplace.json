@@ -11,7 +11,7 @@
       "name": "trente",
       "source": "./",
       "description": "Builds a complete monthly Shopify performance report as a PowerPoint deck in the store's own colours, with next month's plan of measured targets.",
-      "version": "1.0.1",
+      "version": "2.0.0",
       "author": {
         "name": "Agence CINQ",
         "url": "https://agencecinq.com"

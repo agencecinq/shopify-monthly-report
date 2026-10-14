@@ -6,6 +6,11 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-14
+
+The plugin is now Trente. Reinstall it under its new name: the context and
+plan stored in each shop's metafield carry over.
+
 ### Fixed
 
 - The plan no longer labels a target "three tenths better than today" when the
