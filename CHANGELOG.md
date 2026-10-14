@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `.claude-plugin/icon.png`, the listing icon for the plugin directory.
+- A "What it reads, runs and writes" section in both READMEs, for the
+  directory's security review.
+
 ## [2.0.0] - 2026-10-14
 
 The plugin is now Trente. Reinstall it under its new name: the context and

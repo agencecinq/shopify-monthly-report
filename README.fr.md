@@ -161,12 +161,43 @@ est dans les scripts, pas dans la sortie du modèle.
 | `scripts/brand.py` | Déduit une palette lisible du thème Shopify, gère les trois familles de thèmes et corrige les contrastes |
 | `scripts/highlights.py` | Calcule les constats de saillance à partir de règles chiffrées |
 | `scripts/priorities.py` | Construit le plan du mois prochain : classement, objectifs, suivi |
+| `scripts/custom_metrics.py` | Transforme les lignes de chaque indicateur permanent en ce que montre sa slide |
+| `scripts/shared.py` | Les règles communes aux deux moteurs : sources attribuées, alignement des séries |
 | `scripts/build_report.py` | Assemble la présentation |
 | `scripts/i18n.py` | Langue et formatage des nombres |
 
 Les constats et les objectifs sont calculés, jamais rédigés par le modèle. C'est
 ce qui les rend reproductibles d'un mois sur l'autre et d'une boutique à
 l'autre, et ce qui empêche le rapport de dériver vers le conseil.
+
+## Ce qu'il lit, exécute et écrit
+
+Tout se passe dans votre compte Claude, par les outils que vous avez connectés.
+Le plugin n'envoie rien à CINQ ni à aucun autre service.
+
+- **Il lit**, par le connecteur Shopify : des requêtes analytiques ShopifyQL
+  (ventes, sessions, produits, clients, par pays ou par code postal pour les
+  cartes), les informations de la boutique, le fichier
+  `config/settings_data.json` du thème publié, et le nombre de clients par tag
+  quand vous demandez cet indicateur. Les requêtes renvoient des totaux : aucun
+  nom, e-mail ou adresse de client n'est lu.
+- **Il télécharge** le logo de la boutique sur le CDN de Shopify, quand le thème
+  en désigne un.
+- **Il écrit** un seul métachamp sur la boutique, `shopify_report.context`
+  (JSON), et sa définition la première fois, pour que vous puissiez le lire et
+  le corriger depuis l'admin. Il contient vos réponses, le plan et les recettes
+  de vos indicateurs permanents. Rien d'autre n'est modifié dans la boutique.
+- **Il installe** python-pptx, et Pillow si possible, depuis PyPI avec `pip`,
+  quand l'environnement de Claude ne les a pas.
+- **Il exécute** les scripts Python de `skills/trente/scripts`. Ils lisent les
+  fichiers préparés par Claude, écrivent le `.pptx` et le fichier du plan, et ne
+  font aucun appel réseau.
+- **Il embarque** des données ouvertes pour les cartes dans
+  `skills/trente/assets` (voir Licence).
+
+La slide de clôture renvoie vers agencecinq.com, avec des balises
+`utm_source=trente`, et vers contact@agencecinq.com. Rien n'est envoyé tant que
+le lecteur ne clique pas.
 
 ## Contribuer
 

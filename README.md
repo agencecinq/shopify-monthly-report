@@ -155,12 +155,39 @@ the scripts, not in the model's output.
 | `scripts/brand.py` | Derives a readable palette from the Shopify theme, handling the three families of themes and fixing contrast |
 | `scripts/highlights.py` | Computes the salience findings from numeric rules |
 | `scripts/priorities.py` | Builds next month's plan: ranking, targets, follow-up |
+| `scripts/custom_metrics.py` | Turns the rows of each permanent metric into what its slide shows |
+| `scripts/shared.py` | Rules the two engines share: attributed sources, series alignment |
 | `scripts/build_report.py` | Assembles the deck |
 | `scripts/i18n.py` | Language and number formatting |
 
 Findings and targets are computed, never written by the model. That is what
 keeps them reproducible from one month to the next and from one store to
 another, and what stops the report drifting into advice.
+
+## What it reads, runs and writes
+
+Everything below happens in your Claude account, through the tools you
+connected. The plugin sends nothing to CINQ or to any other service.
+
+- **Reads**, through the Shopify connector: ShopifyQL analytics queries (sales,
+  sessions, products, customers, by country or postcode for the maps), the shop
+  info, the published theme's `config/settings_data.json`, and customer counts
+  by tag when you ask for that metric. Queries return totals; no customer
+  name, email or address is read.
+- **Downloads** the store logo from the Shopify CDN, when the theme names one.
+- **Writes** one metafield on the shop, `shopify_report.context` (JSON), and
+  its definition the first time, so you can read and correct it from the admin.
+  It holds your answers, the plan and the recipes of your permanent metrics.
+  Nothing else in the store is changed.
+- **Installs** python-pptx, and Pillow if possible, from PyPI with `pip`, when
+  Claude's environment does not have them.
+- **Runs** the Python scripts in `skills/trente/scripts`. They read the files
+  Claude prepared, write the `.pptx` and the plan file, and make no network
+  call.
+- **Bundles** open data for the maps in `skills/trente/assets` (see Licence).
+
+The closing slide links to agencecinq.com, with `utm_source=trente` tags, and
+to contact@agencecinq.com. Nothing is sent unless the reader clicks.
 
 ## Contributing
 
