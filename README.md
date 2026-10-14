@@ -41,6 +41,12 @@ store itself. Next month's report opens on a follow-up slide comparing each
 target to what was actually measured: every commitment the plan makes is
 checked, a month later.
 
+**It learns what you want to follow.** Ask for a view once, such as a map of
+France with orders per 100,000 inhabitants by department, the number of
+customers with a given tag, the share of orders with a discount code or the
+sales of one collection, and it appears in every report after that. The recipe
+is stored in the same metafield, and you can list, change or remove it.
+
 **Your data stays in your account.** Figures are read through the Shopify
 connector and processed in your Claude account. The plugin makes no network call
 of its own, and nothing reaches CINQ.
@@ -103,8 +109,9 @@ Cover, table of contents, the month at a glance, what stands out, last month's
 plan, the month ahead, then the chapters: **Sales** (daily trend, 24-month
 history, breakdown, channels), **Acquisition** (funnel, sources, countries and
 devices), **Products** (best sellers, lines, variants, stock, returns),
-**Customers**, **Profitability**, **Marketing**, a method slide saying where
-every figure comes from, and a closing slide on Trente and CINQ with a link to
+**Customers**, **Profitability**, **Marketing**, **Your metrics** (the
+permanent metrics you asked for), a method slide saying where every figure
+comes from, and a closing slide on Trente and CINQ with a link to
 reach us.
 
 Each chapter carries one line explaining what the metric measures and how to
@@ -162,3 +169,8 @@ support for other analytics sources are all welcome.
 ## Licence
 
 MIT, see [LICENSE](LICENSE). Built by [CINQ - Agence Wordpress & Shopify](https://agencecinq.com).
+
+The map of France bundles open data under the Licence Ouverte (Etalab):
+department outlines from IGN Admin Express, via
+[france-geojson](https://github.com/gregoiredavid/france-geojson), and
+populations from the INSEE reference populations.

@@ -38,6 +38,7 @@ from pptx.util import Emu, Inches, Pt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from brand import build_palette, contrast, mix  # noqa: E402
 from i18n import Lang, available  # noqa: E402
+import custom_metrics  # noqa: E402
 import shared  # noqa: E402
 
 W, H = 13.333, 7.5
@@ -1009,6 +1010,288 @@ def slide_text_blocks(d, title, blocks, hint=None):
 
 
 # ---------------------------------------------------------------------------
+# permanent metrics
+# ---------------------------------------------------------------------------
+
+def _cval(v, unit, cur, dec=None):
+    if v is None:
+        return T("common.na")
+    if unit == "money":
+        return money(v, cur, short=True)
+    if unit == "percent":
+        return percent(v)
+    return _L.num(v, dec if dec is not None else (0 if abs(v) >= 100 or v == int(v) else 1))
+
+
+def _cdelta(m, cur_v, ref_v, unit):
+    """The change line of a permanent metric: points for a share, % otherwise."""
+    if cur_v is None or ref_v is None:
+        return None, 0
+    if unit == "percent":
+        diff = cur_v - ref_v
+        sign = "+" if diff >= 0 else "-"
+        return f"{sign}{_L.points(diff)}", (1 if diff > 0 else (-1 if diff < 0 else 0))
+    return delta(cur_v, ref_v)
+
+
+def _cbasis(d, m):
+    """What a metric is compared with, as the text after "vs", or None."""
+    kind, label = m.get("basis") or (None, None)
+    if kind == "last_report":
+        return label
+    return (d.meta.get("comparison_labels") or {}).get("previous_period")
+
+
+def _ccaption(m):
+    cap = T("custom.caption", date=m["added"])
+    if m.get("source"):
+        cap += " " + T("custom.source", source=m["source"])
+    return cap
+
+
+def slide_custom_kpi(d, m):
+    p, cur = d.p, d.meta["currency"]
+    s = d.slide()
+    y0 = d.frame(s, m["title"], d.meta.get("kicker"))
+    w_main = 5.4 if m["details"] else W - 2 * M
+    d.card(s, M, y0, w_main, 3.3)
+    pad = 0.4
+    label = (T("custom.as_of", date=d.meta["generated_on"]) if m["kind"] == "stock"
+             else d.meta["period_label"])
+    d.text(s, M + pad, y0 + 0.34, w_main - 2 * pad, 0.32, label.upper(), size=9.5,
+           bold=True, color=p["muted"])
+    value = _cval(m["value"], m["unit"], cur)
+    if m.get("at_least"):
+        value = T("custom.at_least", value=value)
+    d.text(s, M + pad, y0 + 0.8, w_main - 2 * pad, 1.2, value, size=54, bold=True,
+           color=p["ink"], font=p["font_heading"])
+    basis = _cbasis(d, m)
+    txt, sense = _cdelta(m, m["value"], m["compare"], m["unit"])
+    if txt and basis:
+        col = p["up"] if sense > 0 else (p["down"] if sense < 0 else p["muted"])
+        d.text(s, M + pad, y0 + 2.25, w_main - 2 * pad, 0.4,
+               [{"t": txt + "  ", "size": 15, "bold": True, "color": col}],
+               anchor=MSO_ANCHOR.MIDDLE)
+        d.text(s, M + pad, y0 + 2.65, w_main - 2 * pad, 0.32,
+               T("common.vs", label=basis) + " · " +
+               _cval(m["compare"], m["unit"], cur), size=10.5, color=p["muted"])
+    elif m["kind"] == "stock":
+        d.text(s, M + pad, y0 + 2.4, w_main - 2 * pad, 0.5, T("custom.first_report"),
+               size=10.5, color=p["muted"])
+
+    x = M + w_main + 0.36
+    w = W - M - x
+    for i, det in enumerate(m["details"]):
+        y = y0 + i * 1.12
+        d.card(s, x, y, w, 0.98, fill=p["surface_alt"])
+        d.text(s, x + 0.3, y + 0.16, w - 0.6, 0.28, det["label"].upper(), size=9,
+               bold=True, color=p["muted"])
+        d.text(s, x + 0.3, y + 0.44, 2.6, 0.45, _cval(det["value"], det["unit"], cur),
+               size=20, bold=True, color=p["ink"], font=p["font_heading"],
+               anchor=MSO_ANCHOR.MIDDLE)
+        txt, sense = _cdelta(m, det["value"], det["compare"], det["unit"])
+        prev = (d.meta.get("comparison_labels") or {}).get("previous_period")
+        if txt and prev:
+            col = p["up"] if sense > 0 else (p["down"] if sense < 0 else p["muted"])
+            d.text(s, x + 2.9, y + 0.44, w - 3.2, 0.45,
+                   [{"t": txt, "size": 11, "bold": True, "color": col},
+                    {"t": T("common.vs", label=prev), "size": 9, "color": p["muted"]}],
+                   anchor=MSO_ANCHOR.MIDDLE)
+    d.text(s, M, FOOT - 0.62, W - 2 * M, 0.55, _ccaption(m), size=9, color=p["muted"])
+
+
+def _excel_fmt(d, unit):
+    return {"money": d.money_fmt, "percent": "0.0%"}.get(unit, "#,##0")
+
+
+def slide_custom_bars(d, m):
+    cur = d.meta["currency"]
+    rows = m["rows"]
+    prev = (d.meta.get("comparison_labels") or {}).get("previous_period")
+    lines = []
+    for r in rows[:8]:
+        txt, _ = _cdelta(m, r["value"], r["compare"], m["unit"])
+        val = _cval(r["value"], m["unit"], cur)
+        lines.append((r["label"], f"{val}  ({txt})" if txt and prev else val))
+    slide_chart_and_rows(
+        d, m["title"], [r["label"] for r in rows][::-1],
+        [r["value"] for r in rows][::-1], lines,
+        chart_title=d.meta["period_label"],
+        rows_title=T("common.vs", label=prev) if prev and any(
+            r["compare"] is not None for r in rows) else None,
+        caption=_ccaption(m), value_fmt=_excel_fmt(d, m["unit"]))
+
+
+def slide_custom_table(d, m):
+    cur = d.meta["currency"]
+    prev = (d.meta.get("comparison_labels") or {}).get("previous_period")
+    with_ref = prev and any(r["compare"] is not None for r in m["rows"])
+    cols = [m.get("label_title") or T("custom.item"), d.meta["period_label"]]
+    if with_ref:
+        cols += [prev, T("custom.change")]
+    rows = []
+    for r in m["rows"]:
+        row = [r["label"], _cval(r["value"], m["unit"], cur)]
+        if with_ref:
+            txt, _ = _cdelta(m, r["value"], r["compare"], m["unit"])
+            row += [_cval(r["compare"], m["unit"], cur), txt or T("common.na")]
+        rows.append(row)
+    slide_table(d, m["title"], cols, rows, caption=_ccaption(m))
+
+
+def _draw_frame(d, s, frame, x, y, w, h, fills, names):
+    """
+    Draws one frame of the map in the box (x, y, w, h), in inches, keeping its
+    proportions. Each department is one editable freeform shape, named after
+    it, so the map can be recoloured or annotated in PowerPoint.
+    """
+    k = min(w / frame["w"], h / frame["h"])
+    ox = x + (w - frame["w"] * k) / 2
+    oy = y + (h - frame["h"] * k) / 2
+    emu = k * 914400
+    for code, rings in frame["shapes"].items():
+        first = rings[0]
+        fb = s.shapes.build_freeform(first[0], first[1], scale=emu)
+        fb.add_line_segments(list(zip(first[2::2], first[3::2])), close=True)
+        for ring in rings[1:]:
+            fb.move_to(ring[0], ring[1])
+            fb.add_line_segments(list(zip(ring[2::2], ring[3::2])), close=True)
+        shp = fb.convert_to_shape(Emu(int(ox * 914400)), Emu(int(oy * 914400)))
+        shp.name = f"{code} {names.get(code, '')}".strip()
+        shp.fill.solid()
+        shp.fill.fore_color.rgb = RGBColor.from_string(fills[code])
+        shp.line.color.rgb = d.rgb("bg")
+        shp.line.width = Pt(0.4)
+        _flatten(shp)
+
+
+def _rate_txt(v):
+    """Enough decimals to tell small rates apart: a shop with 17 French orders
+    has rates around 0.05 per 100,000, and one decimal would show only zeros."""
+    v = abs(v)
+    return _L.num(v, 0 if v >= 100 else 1 if v >= 1 else 2 if v >= 0.01 else 3)
+
+
+def slide_custom_map(d, m):
+    import custom_metrics as cm
+    p, cur = d.p, d.meta["currency"]
+    fr = cm.france()
+    deps, bounds = m["departments"], m["bounds"]
+    shades = [mix(p["surface"], p["accent"], 0.32 + 0.68 * i / max(1, len(bounds) - 1))
+              for i in range(len(bounds))]
+    # Departments with nothing stay visible against the page: a fill as pale
+    # as the background would erase the outline of France.
+    zero = mix(p["bg"], p["ink"], 0.09)
+    nodata = mix(p["bg"], p["ink"], 0.035)
+    fills = {}
+    for code, dep in deps.items():
+        c = dep["class"]
+        fills[code] = nodata if c is None else (zero if c == 0 else shades[c - 1])
+
+    s = d.slide()
+    y0 = d.frame(s, m["title"], d.meta.get("kicker"))
+    top, bottom = y0 - 0.05, FOOT - 0.72
+    h = bottom - top
+
+    # Metropolitan France, then the insets column: Île-de-France on top, the
+    # five overseas departments below, two to a row.
+    metro = fr["frames"]["metro"]
+    mw = h * metro["w"] / metro["h"]
+    _draw_frame(d, s, metro, M, top, mw, h, fills, fr["names"])
+    ix, iw = M + mw + 0.22, 1.9
+    idf_h = 1.62
+    d.card(s, ix, top, iw, idf_h, fill=p["bg"])
+    d.text(s, ix + 0.08, top + 0.04, iw - 0.16, 0.22, T("custom.idf"), size=8,
+           bold=True, color=p["muted"])
+    _draw_frame(d, s, fr["frames"]["idf"], ix + 0.1, top + 0.28, iw - 0.2,
+                idf_h - 0.36, fills, fr["names"])
+    cell_w, cell_h = (iw - 0.12) / 2, (h - idf_h - 0.12) / 3
+    for i, code in enumerate(["971", "972", "973", "974", "976"]):
+        cx = ix + (i % 2) * (cell_w + 0.12)
+        cy = top + idf_h + 0.12 + (i // 2) * cell_h
+        _draw_frame(d, s, fr["frames"][code], cx + 0.06, cy + 0.04, cell_w - 0.12,
+                    cell_h - 0.34, fills, fr["names"])
+        d.text(s, cx, cy + cell_h - 0.3, cell_w, 0.24, fr["names"][code], size=7.5,
+               color=p["muted"], align=PP_ALIGN.CENTER)
+
+    # Right panel: legend, national figure, top ten.
+    rx = ix + iw + 0.4
+    rw = W - M - rx
+    measure = m.get("measure") or T("custom.value")
+    legend = (T("custom.per_100k", measure=measure) if m["per_capita"] else measure)
+    d.text(s, rx, top, rw, 0.28, legend.upper(), size=8.5, bold=True, color=p["muted"])
+    ly = top + 0.34
+    steps = [(zero, T("custom.zero"))]
+    lo = 0
+    for b, col in zip(bounds, shades):
+        steps.append((col, f"{_rate_txt(lo)} – {_rate_txt(b)}" if lo else f"≤ {_rate_txt(b)}"))
+        lo = b
+    if m["no_population"]:
+        steps.append((nodata, T("custom.no_population")))
+    sw = rw / len(steps)
+    for i, (col, lab) in enumerate(steps):
+        d.bar(s, rx + i * sw, ly, sw - 0.04, 0.16, col)
+        d.text(s, rx + i * sw, ly + 0.2, sw - 0.04, 0.3, lab, size=7.5, color=p["muted"])
+    ly += 0.62
+    if m.get("national") is not None:
+        d.text(s, rx, ly, rw, 0.3, T("custom.national", value=_rate_txt(m["national"])),
+               size=10.5, bold=True, color=p["ink"])
+        ly += 0.38
+
+    prev = (d.meta.get("comparison_labels") or {}).get("previous_period")
+    with_ref = prev and any(t["compare"] is not None for t in m["top"])
+    cols = [T("custom.department"), measure]
+    if m["per_capita"]:
+        cols.append(T("custom.per_100k_short"))
+    if with_ref:
+        cols.append(T("custom.change"))
+    widths = [0.46] + [0.54 / (len(cols) - 1)] * (len(cols) - 1)
+    d.text(s, rx, ly, rw, 0.26, T("custom.top"), size=8.5, bold=True, color=p["muted"])
+    ly += 0.3
+    rh = min(0.27, (bottom - ly - 0.3) / 11)
+    xx = rx
+    for c, wf in zip(cols, widths):
+        d.text(s, xx, ly, rw * wf, rh, c, size=7.5, bold=True, color=p["muted"],
+               align=PP_ALIGN.LEFT if xx == rx else PP_ALIGN.RIGHT,
+               anchor=MSO_ANCHOR.MIDDLE)
+        xx += rw * wf
+    ly += rh
+    d.bar(s, rx, ly - 0.02, rw, 0.008, p["hairline"])
+    for i, t in enumerate(m["top"]):
+        cells = [f"{t['code']} {t['name']}", _cval(t["value"], m["unit"], cur)]
+        if m["per_capita"]:
+            cells.append(_rate_txt(t["rate"]))
+        if with_ref:
+            txt, _ = _cdelta(m, t["value"], t["compare"], m["unit"])
+            cells.append(txt or T("common.na"))
+        if i % 2 == 1:
+            d.bar(s, rx, ly, rw, rh, p["surface"])
+        xx = rx
+        for j, (c, wf) in enumerate(zip(cells, widths)):
+            d.text(s, xx + (0.06 if j == 0 else 0), ly, rw * wf - 0.06, rh, c, size=8.5,
+                   color=p["ink"], align=PP_ALIGN.LEFT if j == 0 else PP_ALIGN.RIGHT,
+                   anchor=MSO_ANCHOR.MIDDLE)
+            xx += rw * wf
+        ly += rh
+
+    cap = [T("custom.map_sources", year=m["population_year"])]
+    if m["outside"]:
+        cap.append(T("custom.outside", count=_cval(m["outside"], m["unit"], cur)))
+    cap.append(_ccaption(m))
+    d.text(s, M, FOOT - 0.66, W - 2 * M, 0.6, " ".join(cap), size=8, color=p["muted"])
+
+
+CUSTOM_SLIDES = {"kpi": slide_custom_kpi, "bars": slide_custom_bars,
+                 "table": slide_custom_table, "map_fr": slide_custom_map}
+
+
+def _gen_custom(m):
+    def gen(d, data):
+        CUSTOM_SLIDES[m["view"]](d, m)
+    return gen
+
+
+# ---------------------------------------------------------------------------
 # composition du rapport
 # ---------------------------------------------------------------------------
 
@@ -1235,6 +1518,14 @@ def plan(data):
                          "blurb": T("chapters.marketing_blurb"),
                          "gens": mkt})
 
+    # The merchant's own metrics close the chapters, in the order they were
+    # added, whatever the profile.
+    custom = data.get("_custom_models") or []
+    if custom:
+        chapters.append({"key": "custom", "title": T("chapters.custom"),
+                         "blurb": T("chapters.custom_blurb"),
+                         "gens": [_gen_custom(m) for m in custom]})
+
     # Le profil réordonne. Une activité de réachat met ses clients en avant ;
     # une activité d'achat unique met son acquisition en avant.
     # `driver` is the English key; `moteur` is kept so contexts written by
@@ -1296,6 +1587,22 @@ def build(data, palette, logo, out):
             blocs.append({"title": T("methodology.plan_title"),
                           "text": T("methodology.plan_text")})
 
+    # Permanent metrics: a recipe this month's rows cannot draw is left out
+    # with a warning, and stays in the metafield for next month.
+    models = []
+    recipes = data.get("custom_metrics") or []
+    if len(recipes) > custom_metrics.MAX_METRICS:
+        warnings.append(f"custom metrics: {len(recipes)} given, only the first "
+                        f"{custom_metrics.MAX_METRICS} are drawn")
+    for m in recipes[:custom_metrics.MAX_METRICS]:
+        try:
+            models.append(custom_metrics.prepare(m))
+        except custom_metrics.MetricError as exc:
+            warnings.append(f"custom metric {m.get('id')!r} left out: {exc}")
+        except Exception as exc:
+            warnings.append(f"custom metric {m.get('id')!r} left out: {exc!r}")
+    data["_custom_models"] = models
+
     d = Deck(palette, meta)
     d.warnings = warnings
     chapters = plan(data)
@@ -1322,8 +1629,10 @@ def build(data, palette, logo, out):
     slide_cinq(d)
 
     d.prs.save(out)
+    custom_last = custom_metrics.last_values(
+        models, (meta.get("period_start") or "")[:7], meta.get("period_label"))
     return (out, [c["title"] for c in chapters], data.get("highlights") or [],
-            prio_state, warnings)
+            prio_state, warnings, custom_last)
 
 
 def main():
@@ -1351,8 +1660,8 @@ def main():
     if over.get("agency") is not None:
         data.setdefault("meta", {})["agency"] = over["agency"]
 
-    out, chapters, hl, prio_state, warnings = build(data, palette, logo=a.logo,
-                                                    out=a.out)
+    out, chapters, hl, prio_state, warnings, custom_last = build(
+        data, palette, logo=a.logo, out=a.out)
     for w in warnings:
         print(f"warning: {w}", file=sys.stderr)
     if a.state and prio_state:
@@ -1370,6 +1679,8 @@ def main():
                   "goal": c["goal"], "gain": c["gain_txt"]}
                  for c in (data.get("priorities") or [])],
         "state_file": a.state if (a.state and prio_state) else None,
+        "custom_metrics": [m["id"] for m in data.get("_custom_models") or []],
+        "custom_metrics_last": custom_last,
         "warnings": warnings,
     }, ensure_ascii=False, indent=2))
 

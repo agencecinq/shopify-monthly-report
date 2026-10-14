@@ -10,7 +10,9 @@ description: >
   says "build me the September report", "how is my store doing this month", "a
   recap for my co-founder", "last month's figures as a deck", "what should I
   focus on". Also use for a quarter or any other period whenever the request is
-  for a figures-based review of the store.
+  for a figures-based review of the store, and when they ask to see a metric
+  in every report ("add a map of my orders by department", "track my tagged
+  customers each month").
 ---
 
 # Trente: the Shopify monthly report
@@ -108,7 +110,8 @@ Read the `shopify_report.context` metafield on the store.
   merchant can see and correct their context, then run the opening
   questionnaire, six questions asked one at a time, before collecting anything.
 - **Present**: take it up, confirm in one sentence what is on file, and ask the
-  month's enrichment question.
+  month's enrichment question. Mention the permanent metrics on file, if any,
+  by their titles.
 
 Check that the context matches the connected store.
 
@@ -143,6 +146,9 @@ limited" error, wait a few seconds and re-run that query alone.
 Do not skip the two twelve-month histories (returns and conversion): without
 them the plan has no reference and cannot set a target.
 
+Then run the queries of every permanent metric in `context.custom_metrics`,
+verbatim, as `references/custom-metrics.md` describes.
+
 ### 6. Extract the store's colours
 
 Follow `references/collecting-data.md`, "Branding" section. Read the published
@@ -174,6 +180,8 @@ Check:
 - Labels are written in the report's language and ready to read.
 - The online store channel carries `"online": true`.
 - `context` and `previous_plan` are taken from the metafield.
+- `custom_metrics` holds each recipe from the context with its rows under
+  `data`.
 
 ### 9. Build the deck
 
@@ -203,7 +211,8 @@ delivery summary. Never deliver over a warning you have not read.
 ### 10. Store the context and the plan
 
 Write the updated context to the `shopify_report.context` metafield, with
-`previous_plan` set to the contents of the `--state` file.
+`previous_plan` set to the contents of the `--state` file, and the `last` value
+of each stock metric set from `custom_metrics_last` in the script's output.
 
 Without this step, next month's report cannot measure the targets, and the
 plan stays an intention nobody ever checks. This is what separates a report
@@ -244,8 +253,9 @@ The script composes on its own from the data present and the profile.
 10. **Customers**: new and returning
 11. **Profitability**: gross margin
 12. **Marketing**: email and SMS, advertising
-13. Method and scope
-14. Trente, by CINQ: the closing slide
+13. **Your metrics**: the merchant's permanent metrics, one slide each
+14. Method and scope
+15. Trente, by CINQ: the closing slide
 
 The closing slide is part of the tool and the same in every deck. Do not
 remove it, reword it or move it.
@@ -253,6 +263,17 @@ remove it, reword it or move it.
 Profile `retention` lifts the Customers chapter to just after Sales; profile
 `acquisition` lifts Acquisition. Any chapter without data disappears, divider
 included.
+
+## Permanent metrics
+
+When the merchant asks to see something in every report ("add a map of my
+orders by department", "show me how many customers are tagged abonné each
+month"), follow `references/custom-metrics.md`: say back what will be measured,
+check the parameter exists, write and run the queries, show the slide, and save
+the recipe to the context only once the merchant has confirmed.
+
+The merchant can list, change or remove them at any time. A recipe is never
+added, changed or removed without being asked.
 
 ## How the plan is built
 

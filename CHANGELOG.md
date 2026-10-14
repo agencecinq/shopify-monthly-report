@@ -31,6 +31,17 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Permanent metrics. A merchant can ask for a view once and find it in every
+  report: a `kpi`, `bars`, `table` or `map_fr` view over queries stored as a
+  recipe in `context.custom_metrics`. They are drawn in a "Your metrics"
+  chapter and never feed the highlights or the plan. A stock metric, such as
+  customers with a tag, compares with the value stored at the last report.
+  See `references/custom-metrics.md`.
+- A map of France by department, with Île-de-France and the five overseas
+  departments as insets, and rates per 100,000 inhabitants from the INSEE
+  reference populations. The outlines (IGN Admin Express, Licence Ouverte) and
+  populations are bundled in `assets/fr-departments.json`, rebuilt with
+  `tools/build_fr_map.py`.
 - A closing slide on Trente and CINQ: where the data goes, and a link to reach
   CINQ.
 - SKILL.md checks python-pptx before collecting any data, and stops with one

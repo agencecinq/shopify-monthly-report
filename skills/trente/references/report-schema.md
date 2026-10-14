@@ -319,6 +319,29 @@ Generic sections, one per additional source.
 `chart` values are numbers, shown in the store currency. State the attribution
 window in `caption`, or the figures cannot be compared with Shopify's.
 
+## custom_metrics
+
+The merchant's permanent metrics, from `context.custom_metrics`: each recipe as
+stored, plus a `data` key holding the rows of each of its queries for this
+period. See `custom-metrics.md` for the recipe and the views.
+
+```json
+[{"id": "discount-code-share", "title": "Part des commandes avec un code promo",
+  "request": "la part des commandes passées avec un code promo",
+  "added": "14 octobre 2026", "view": "kpi", "kind": "flow", "unit": "percent",
+  "queries": [{"name": "all", "tool": "run-analytics-query", "query": "..."},
+              {"name": "coded", "tool": "run-analytics-query", "query": "..."}],
+  "value": {"num": {"query": "coded", "field": "orders",
+                    "compare_field": "comparison_orders__previous_period"},
+            "den": {"query": "all", "field": "orders",
+                    "compare_field": "comparison_orders__previous_period"}},
+  "data": {"all": [{"orders": 260, "comparison_orders__previous_period": 291}],
+           "coded": [{"orders": 47, "comparison_orders__previous_period": 39}]}}]
+```
+
+A metric whose `data` is missing or unreadable is left out with a warning; the
+other metrics are still drawn.
+
 ## highlights and priorities
 
 **Do not fill these in.** The scripts compute them from numeric rules.
