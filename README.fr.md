@@ -45,7 +45,7 @@ un mois plus tard.
 
 **Il retient ce que vous voulez suivre.** Demandez une vue une fois, par
 exemple une carte de France des commandes pour 100 000 habitants par
-département, le nombre de clients portant un tag, la part des commandes passées
+département, une carte du monde des commandes par pays, le nombre de clients portant un tag, la part des commandes passées
 avec un code promo ou le chiffre d'affaires d'une collection, et elle figure
 dans tous les rapports suivants. La recette est rangée dans le même métachamp,
 et vous pouvez la lister, la modifier ou la retirer.
@@ -181,4 +181,6 @@ MIT, voir [LICENSE](LICENSE). Développé par
 La carte de France embarque des données ouvertes sous Licence Ouverte (Etalab) :
 les contours des départements de l'IGN Admin Express, via
 [france-geojson](https://github.com/gregoiredavid/france-geojson), et les
-populations de référence de l'INSEE.
+populations de référence de l'INSEE. La carte du monde embarque les contours
+des pays de [Natural Earth](https://www.naturalearthdata.com) (domaine public)
+et les populations de la Banque mondiale (CC BY 4.0).

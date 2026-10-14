@@ -42,7 +42,8 @@ target to what was actually measured: every commitment the plan makes is
 checked, a month later.
 
 **It learns what you want to follow.** Ask for a view once, such as a map of
-France with orders per 100,000 inhabitants by department, the number of
+France with orders per 100,000 inhabitants by department, a world map of
+orders by country, the number of
 customers with a given tag, the share of orders with a discount code or the
 sales of one collection, and it appears in every report after that. The recipe
 is stored in the same metafield, and you can list, change or remove it.
@@ -173,4 +174,6 @@ MIT, see [LICENSE](LICENSE). Built by [CINQ - Agence Wordpress & Shopify](https:
 The map of France bundles open data under the Licence Ouverte (Etalab):
 department outlines from IGN Admin Express, via
 [france-geojson](https://github.com/gregoiredavid/france-geojson), and
-populations from the INSEE reference populations.
+populations from the INSEE reference populations. The world map bundles
+country outlines from [Natural Earth](https://www.naturalearthdata.com)
+(public domain) and populations from the World Bank (CC BY 4.0).

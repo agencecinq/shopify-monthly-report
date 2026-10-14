@@ -20,15 +20,17 @@ import os
 import re
 import sys
 
-VIEWS = ("kpi", "bars", "table", "map_fr")
+VIEWS = ("kpi", "bars", "table", "map_fr", "map_world")
 UNITS = ("number", "money", "percent")
 KINDS = ("flow", "stock")
 TOOLS = ("run-analytics-query", "graphql_query")
 MAX_METRICS = 8
 ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]{0,40}$")
 
-ASSET = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                     "assets", "fr-departments.json")
+ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                      "assets")
+ASSET = os.path.join(ASSETS, "fr-departments.json")
+WORLD_ASSET = os.path.join(ASSETS, "world-countries.json")
 
 # Shopify gives the overseas departments their own country codes.
 OVERSEAS_COUNTRIES = {"GP": "971", "MQ": "972", "GF": "973", "RE": "974",
@@ -42,16 +44,24 @@ class MetricError(ValueError):
     """A metric this month's data cannot draw. The slide is left out."""
 
 
-_france = None
+_assets = {}
+
+
+def _load(path):
+    if path not in _assets:
+        with open(path, encoding="utf-8") as f:
+            _assets[path] = json.load(f)
+    return _assets[path]
 
 
 def france():
-    """The bundled map: outlines, names and populations, loaded once."""
-    global _france
-    if _france is None:
-        with open(ASSET, encoding="utf-8") as f:
-            _france = json.load(f)
-    return _france
+    """The map of France: outlines, names and populations, loaded once."""
+    return _load(ASSET)
+
+
+def world():
+    """The world map: outlines, names in English and French, populations."""
+    return _load(WORLD_ASSET)
 
 
 # ---------------------------------------------------------------------------
@@ -72,7 +82,7 @@ def _refs(recipe):
         return out
     if view in ("bars", "table"):
         return [recipe.get("rows")]
-    if view == "map_fr":
+    if view in ("map_fr", "map_world"):
         return [recipe.get("map")]
     return []
 
@@ -122,7 +132,9 @@ def validate(recipe):
     if recipe.get("view") in ("bars", "table") and not (recipe.get("rows") or {}).get("label"):
         errors.append(f"{name}: a {recipe.get('view')} view needs a `label` column")
     if recipe.get("view") == "map_fr" and not (recipe.get("map") or {}).get("postal"):
-        errors.append(f"{name}: a map needs a `postal` column")
+        errors.append(f"{name}: a map of France needs a `postal` column")
+    if recipe.get("view") == "map_world" and not (recipe.get("map") or {}).get("country"):
+        errors.append(f"{name}: a world map needs a `country` column")
     return errors
 
 
@@ -351,7 +363,7 @@ def _map(metric):
             rate = v / pop[code] * 100000 if code in pop else None
         else:
             rate = v
-        deps[code] = {"code": code, "name": name, "value": v, "rate": rate,
+        deps[code] = {"code": code, "names": {"fr": name}, "value": v, "rate": rate,
                       "compare": c, "delta": _delta(v, c)}
     bounds = classes([d["rate"] for d in deps.values()])
     for d in deps.values():
@@ -362,11 +374,68 @@ def _map(metric):
     total = sum(d["value"] for d in covered)
     national = (total / sum(pop[d["code"]] for d in covered) * 100000
                 if per_capita and covered else None)
-    return {"departments": deps, "bounds": bounds, "top": ranked[:10],
+    return {"areas": deps, "bounds": bounds, "top": ranked[:10],
             "per_capita": per_capita, "national": national,
             "mapped": sum(cur.values()), "outside": outside,
             "no_population": sorted(c for c in fr["names"] if c not in pop),
             "population_year": fr["sources"]["population_year"],
+            "measure": spec.get("measure"),
+            "unit": metric.get("unit", "number")}
+
+
+def country(code):
+    """
+    The country a Shopify country code is drawn as, or None when the map does
+    not have it. Shopify gives the overseas departments their own codes; the
+    world map draws them as part of France, as Natural Earth does.
+    """
+    code = (code or "").strip().upper()
+    if code in OVERSEAS_COUNTRIES:
+        code = "FR"
+    return code if code in world()["names"]["en"] else None
+
+
+def _map_world(metric):
+    spec = metric["map"]
+    wm = world()
+    cur, ref, outside = {}, {}, 0.0
+    for r in rows(metric, spec["query"]):
+        code = country(r.get(spec["country"]))
+        v = _num(r.get(spec["field"])) or 0.0
+        if code is None:
+            outside += v
+            continue
+        cur[code] = cur.get(code, 0.0) + v
+        if spec.get("compare_field"):
+            c = _num(r.get(spec["compare_field"]))
+            if c is not None:
+                ref[code] = ref.get(code, 0.0) + c
+    if not cur:
+        raise MetricError("no row matched a country on the map")
+    per_capita = spec.get("per_capita", False)
+    pop = wm["population"]
+    areas = {}
+    for code in wm["names"]["en"]:
+        v = cur.get(code, 0.0)
+        c = ref.get(code) if spec.get("compare_field") else None
+        if per_capita:
+            rate = v / pop[code] * 1000000 if code in pop else None
+        else:
+            rate = v
+        areas[code] = {"code": code,
+                       "names": {lg: wm["names"][lg][code] for lg in wm["names"]},
+                       "value": v, "rate": rate, "compare": c, "delta": _delta(v, c)}
+    bounds = classes([a["rate"] for a in areas.values()])
+    for a in areas.values():
+        a["class"] = class_of(a["rate"], bounds)
+    ranked = sorted((a for a in areas.values() if a["rate"] is not None and a["value"] > 0),
+                    key=lambda a: (-a["rate"], -a["value"], a["code"]))
+    return {"areas": areas, "bounds": bounds, "top": ranked[:10],
+            "per_capita": per_capita, "national": None,
+            "countries": sum(1 for v in cur.values() if v > 0),
+            "mapped": sum(cur.values()), "outside": outside,
+            "no_population": sorted(c for c in cur if c not in pop) if per_capita else [],
+            "population_year": wm["sources"]["population_year"],
             "measure": spec.get("measure"),
             "unit": metric.get("unit", "number")}
 
@@ -387,8 +456,10 @@ def prepare(metric):
         model.update(_kpi(metric))
     elif view in ("bars", "table"):
         model.update(_rows(metric))
-    else:
+    elif view == "map_fr":
         model.update(_map(metric))
+    else:
+        model.update(_map_world(metric))
     return model
 
 

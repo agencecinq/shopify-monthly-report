@@ -298,7 +298,17 @@
     "no_population": "Population n/d",
     "top": "Les dix premiers départements",
     "outside": "{count} hors des départements cartographiés (étranger, Monaco, collectivités d'outre-mer, code postal absent).",
-    "map_sources": "Population : INSEE, populations de référence {year}. Contours : IGN Admin Express."
+    "map_sources": "Population : INSEE, populations de référence {year}. Contours : IGN Admin Express.",
+    "europe": "Europe",
+    "country": "Pays",
+    "per_million": "{measure} par million d'habitants",
+    "per_million_short": "Par million",
+    "countries": "{value} {measure} dans {count} pays",
+    "top_countries": "Les dix premiers pays",
+    "world_sources": "Contours : Natural Earth.",
+    "world_population": "Population : Banque mondiale, {year}.",
+    "world_overseas": "Les départements d'outre-mer sont comptés avec la France.",
+    "outside_world": "{count} sans pays sur la carte."
   },
   "cinq": {
     "overline": "Trente, par CINQ",

@@ -42,6 +42,7 @@ metric (see `last`). Recipes live in the context metafield under
    | `bars` | A ranking by a dimension: codes, collections, cities |
    | `table` | The same ranking, when the labels are long or the values many |
    | `map_fr` | A figure by French department, read from shipping postcodes |
+   | `map_world` | A figure by country, read from shipping country codes |
 
 4. **Write the queries**, starting from the recipes below when one fits. A
    `flow` query (anything measured over the period) reads the period through
@@ -110,7 +111,7 @@ to check it, and keep the same `id` so its `last` value carries over.
 | `title` | The slide title, in the report's language. |
 | `request` | The merchant's words, kept to tell what was asked. |
 | `added` | The date it was added, written out in the report's language. |
-| `view` | `kpi`, `bars`, `table` or `map_fr`. |
+| `view` | `kpi`, `bars`, `table`, `map_fr` or `map_world`. |
 | `kind` | `flow` for a quantity over the period (orders, sales, a share); `stock` for a count at a date (customers with a tag). A stock compares with `last`. |
 | `unit` | `number`, `money` or `percent`. A ratio is always a percent. |
 | `source` | One line for the caption: where the figure comes from. |
@@ -128,6 +129,8 @@ What the view reads:
 - **`map_fr`**: `map` is `{query, postal, country, field}`, with
   `compare_field`, `measure` (what is counted, as the legend names it) and
   `per_capita` (true by default) optional.
+- **`map_world`**: `map` is `{query, country, field}`, with `compare_field`,
+  `measure` and `per_capita` (false by default: the value as is) optional.
 
 ## Rows
 
@@ -242,3 +245,29 @@ How the builder reads it:
   overseas departments. Shades are quantiles, so every one is in use. The
   right-hand panel gives the national rate and the ten departments with the
   highest rate.
+
+### Orders by country
+
+A `flow` `map_world`.
+
+```
+FROM sales SHOW orders GROUP BY shipping_country_code
+SINCE START UNTIL END COMPARE TO previous_period
+```
+
+Recipe: `map` `{query: "countries", country: "shipping_country_code", field:
+"orders", compare_field: "comparison_orders__previous_period", measure:
+"Commandes"}`.
+
+How the builder reads it:
+
+- The map shows the number of orders as it is, by default. With
+  `per_capita: true` it shows orders per million inhabitants, from the World
+  Bank populations bundled with the plugin (`assets/world-countries.json`).
+- Shopify gives the overseas departments their own country codes (GP, MQ, GF,
+  RE, YT). The world map draws them as part of France, and the caption says
+  so. A code the map does not have is counted apart.
+- The world is drawn in the Equal Earth projection, which keeps areas true,
+  without Antarctica. A Europe inset, drawn larger, keeps Belgium,
+  Switzerland, Luxembourg or Malta visible. The right-hand panel gives the
+  total, the number of countries and the ten countries with the most orders.

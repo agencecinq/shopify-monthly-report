@@ -298,7 +298,17 @@
     "no_population": "No population",
     "top": "Top ten departments",
     "outside": "{count} outside the mapped departments (abroad, Monaco, overseas collectivities, missing postcode).",
-    "map_sources": "Population: INSEE, reference populations {year}. Outlines: IGN Admin Express."
+    "map_sources": "Population: INSEE, reference populations {year}. Outlines: IGN Admin Express.",
+    "europe": "Europe",
+    "country": "Country",
+    "per_million": "{measure} per million inhabitants",
+    "per_million_short": "Per million",
+    "countries": "{value} {measure} in {count} countries",
+    "top_countries": "Top ten countries",
+    "world_sources": "Outlines: Natural Earth.",
+    "world_population": "Population: World Bank, {year}.",
+    "world_overseas": "The overseas departments are counted with France.",
+    "outside_world": "{count} with no country on the map."
   },
   "cinq": {
     "overline": "Trente, by CINQ",

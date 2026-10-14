@@ -42,6 +42,11 @@ All notable changes to this project are documented here. The format follows
   reference populations. The outlines (IGN Admin Express, Licence Ouverte) and
   populations are bundled in `assets/fr-departments.json`, rebuilt with
   `tools/build_fr_map.py`.
+- A world map of orders by country, in the Equal Earth projection with a
+  Europe inset. Overseas departments are drawn with France. Orders per million
+  inhabitants are an option. Outlines (Natural Earth, public domain) and World
+  Bank populations are bundled in `assets/world-countries.json`, rebuilt with
+  `tools/build_world_map.py`.
 - A closing slide on Trente and CINQ: where the data goes, and a link to reach
   CINQ.
 - SKILL.md checks python-pptx before collecting any data, and stops with one

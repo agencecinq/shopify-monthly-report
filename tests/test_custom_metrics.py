@@ -134,17 +134,17 @@ def test_map_counts_every_order_once(data):
     m = cm.prepare(metric(data, "orders-by-department"))
     france = next(c for c in data["sales_by_country"] if c["label"] == "France")
     assert m["mapped"] + m["outside"] == france["orders"]
-    assert m["departments"]["75"]["value"] == 4
-    assert m["departments"]["2A"]["value"] == 1
+    assert m["areas"]["75"]["value"] == 4
+    assert m["areas"]["2A"]["value"] == 1
 
 
 def test_map_rate_is_per_100000_inhabitants(data):
     m = cm.prepare(metric(data, "orders-by-department"))
-    paris = m["departments"]["75"]
+    paris = m["areas"]["75"]
     assert paris["rate"] == pytest.approx(4 / cm.france()["population"]["75"] * 100000)
     # Mayotte has no INSEE reference population: no rate, no class.
-    assert m["departments"]["976"]["rate"] is None
-    assert m["departments"]["976"]["class"] is None
+    assert m["areas"]["976"]["rate"] is None
+    assert m["areas"]["976"]["class"] is None
     assert m["no_population"] == ["976"]
 
 
@@ -258,3 +258,51 @@ def test_broken_metric_is_a_warning_not_a_crash(data, tmp_path):
     _, _, _, _, warnings, _ = build_report.build(
         data, build_palette("", {}), logo=None, out=str(tmp_path / "r.pptx"))
     assert any("orders-by-department" in w for w in warnings)
+
+
+# ---------------------------------------------------------------------------
+# the world map
+# ---------------------------------------------------------------------------
+
+def test_world_asset_has_names_in_both_languages_and_fits():
+    wm = cm.world()
+    assert os.path.getsize(cm.WORLD_ASSET) < 256 * 1024
+    assert wm["names"]["fr"]["GB"] == "Royaume-Uni"
+    assert set(wm["frames"]["world"]["shapes"]) == set(wm["names"]["en"])
+    assert "AQ" not in wm["names"]["en"]
+    # Small European countries are in the Europe inset.
+    for code in ("LU", "BE", "CH", "MT", "MC"):
+        assert code in wm["frames"]["europe"]["shapes"], code
+
+
+@pytest.mark.parametrize("code,drawn", [
+    ("FR", "FR"), ("fr", "FR"), ("GP", "FR"), ("RE", "FR"), ("GB", "GB"),
+    ("XK", "XK"), ("ZZ", None), ("", None), (None, None)])
+def test_country_codes(code, drawn):
+    assert cm.country(code) == drawn
+
+
+def test_world_map_counts_every_order(data):
+    m = cm.prepare(metric(data, "orders-by-country"))
+    orders = next(k for k in data["kpis"] if k["key"] == "orders")
+    assert m["mapped"] + m["outside"] == orders["value"]
+    assert m["countries"] == 5
+    assert [t["code"] for t in m["top"]] == ["GB", "IE", "FR", "DE", "NL"]
+    # Orders, not a rate: the value is drawn as is.
+    assert m["per_capita"] is False and m["areas"]["GB"]["rate"] == 198
+
+
+def test_world_map_folds_overseas_into_france(data):
+    raw = metric(data, "orders-by-country")
+    raw["data"]["countries"].append({"shipping_country_code": "RE", "orders": 3})
+    assert cm.prepare(raw)["areas"]["FR"]["value"] == 20
+
+
+def test_world_map_per_million(data):
+    raw = metric(data, "orders-by-country")
+    raw["map"]["per_capita"] = True
+    m = cm.prepare(raw)
+    ie = m["areas"]["IE"]
+    assert ie["rate"] == pytest.approx(31 / cm.world()["population"]["IE"] * 1e6)
+    # Ireland's rate is above the United Kingdom's.
+    assert m["top"][0]["code"] == "IE"

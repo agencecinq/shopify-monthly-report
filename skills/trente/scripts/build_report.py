@@ -1172,39 +1172,32 @@ def _rate_txt(v):
     return _L.num(v, 0 if v >= 100 else 1 if v >= 1 else 2 if v >= 0.01 else 3)
 
 
-def slide_custom_map(d, m):
+def _area_name(area):
+    names = area["names"]
+    return names.get(_L.code) or names.get("en") or next(iter(names.values()))
+
+
+def _inset(d, s, frame, x, y, w, h, fills, label, names):
+    """A framed inset: a card, its label, and the map frame inside it."""
+    card = d.card(s, x, y, w, h, fill=d.p["bg"])
+    card.line.color.rgb = d.rgb("hairline")
+    card.line.width = Pt(0.75)
+    d.text(s, x + 0.08, y + 0.04, w - 0.16, 0.22, label, size=8, bold=True,
+           color=d.p["muted"])
+    _draw_frame(d, s, frame, x + 0.1, y + 0.28, w - 0.2, h - 0.36, fills, names)
+
+
+def _layout_fr(d, s, m, top, h, fills):
+    """Metropolitan France, then a column of insets: Île-de-France on top, the
+    five overseas departments below, two to a row. Returns the panel's x."""
     import custom_metrics as cm
-    p, cur = d.p, d.meta["currency"]
     fr = cm.france()
-    deps, bounds = m["departments"], m["bounds"]
-    shades = [mix(p["surface"], p["accent"], 0.32 + 0.68 * i / max(1, len(bounds) - 1))
-              for i in range(len(bounds))]
-    # Departments with nothing stay visible against the page: a fill as pale
-    # as the background would erase the outline of France.
-    zero = mix(p["bg"], p["ink"], 0.09)
-    nodata = mix(p["bg"], p["ink"], 0.035)
-    fills = {}
-    for code, dep in deps.items():
-        c = dep["class"]
-        fills[code] = nodata if c is None else (zero if c == 0 else shades[c - 1])
-
-    s = d.slide()
-    y0 = d.frame(s, m["title"], d.meta.get("kicker"))
-    top, bottom = y0 - 0.05, FOOT - 0.72
-    h = bottom - top
-
-    # Metropolitan France, then the insets column: Île-de-France on top, the
-    # five overseas departments below, two to a row.
     metro = fr["frames"]["metro"]
     mw = h * metro["w"] / metro["h"]
     _draw_frame(d, s, metro, M, top, mw, h, fills, fr["names"])
-    ix, iw = M + mw + 0.22, 1.9
-    idf_h = 1.62
-    d.card(s, ix, top, iw, idf_h, fill=p["bg"])
-    d.text(s, ix + 0.08, top + 0.04, iw - 0.16, 0.22, T("custom.idf"), size=8,
-           bold=True, color=p["muted"])
-    _draw_frame(d, s, fr["frames"]["idf"], ix + 0.1, top + 0.28, iw - 0.2,
-                idf_h - 0.36, fills, fr["names"])
+    ix, iw, idf_h = M + mw + 0.22, 1.9, 1.62
+    _inset(d, s, fr["frames"]["idf"], ix, top, iw, idf_h, fills, T("custom.idf"),
+           fr["names"])
     cell_w, cell_h = (iw - 0.12) / 2, (h - idf_h - 0.12) / 3
     for i, code in enumerate(["971", "972", "973", "974", "976"]):
         cx = ix + (i % 2) * (cell_w + 0.12)
@@ -1212,19 +1205,60 @@ def slide_custom_map(d, m):
         _draw_frame(d, s, fr["frames"][code], cx + 0.06, cy + 0.04, cell_w - 0.12,
                     cell_h - 0.34, fills, fr["names"])
         d.text(s, cx, cy + cell_h - 0.3, cell_w, 0.24, fr["names"][code], size=7.5,
-               color=p["muted"], align=PP_ALIGN.CENTER)
+               color=d.p["muted"], align=PP_ALIGN.CENTER)
+    return ix + iw + 0.4
 
-    # Right panel: legend, national figure, top ten.
-    rx = ix + iw + 0.4
+
+def _layout_world(d, s, m, top, h, fills):
+    """The world across the top, and a Europe inset over the South Pacific,
+    the one corner of the map with no land. Returns the panel's x."""
+    import custom_metrics as cm
+    wm = cm.world()
+    names = wm["names"].get(_L.code) or wm["names"]["en"]
+    world_f, europe = wm["frames"]["world"], wm["frames"]["europe"]
+    mw = W - 2 * M - 4.0
+    mh = mw * world_f["h"] / world_f["w"]
+    _draw_frame(d, s, world_f, M, top, mw, mh, fills, names)
+    ew = 2.2
+    eh = (ew - 0.2) * europe["h"] / europe["w"] + 0.36
+    _inset(d, s, europe, M, top + h - eh, ew, eh, fills, T("custom.europe"), names)
+    return M + mw + 0.4
+
+
+def slide_custom_map(d, m):
+    p, cur = d.p, d.meta["currency"]
+    world = m["view"] == "map_world"
+    areas, bounds = m["areas"], m["bounds"]
+    shades = [mix(p["surface"], p["accent"], 0.32 + 0.68 * i / max(1, len(bounds) - 1))
+              for i in range(len(bounds))]
+    # Areas with nothing stay visible against the page: a fill as pale as the
+    # background would erase the outlines.
+    zero = mix(p["bg"], p["ink"], 0.09)
+    nodata = mix(p["bg"], p["ink"], 0.035)
+    fills = {}
+    for code, a in areas.items():
+        c = a["class"]
+        fills[code] = nodata if c is None else (zero if c == 0 else shades[c - 1])
+
+    s = d.slide()
+    y0 = d.frame(s, m["title"], d.meta.get("kicker"))
+    top, bottom = y0 - 0.05, FOOT - 0.72
+    rx = (_layout_world if world else _layout_fr)(d, s, m, top, bottom - top, fills)
     rw = W - M - rx
+
+    # Right panel: legend, headline figure, top ten.
     measure = m.get("measure") or T("custom.value")
-    legend = (T("custom.per_100k", measure=measure) if m["per_capita"] else measure)
+    if m["per_capita"]:
+        legend = T("custom.per_million" if world else "custom.per_100k", measure=measure)
+    else:
+        legend = measure
     d.text(s, rx, top, rw, 0.28, legend.upper(), size=8.5, bold=True, color=p["muted"])
     ly = top + 0.34
+    fmt_class = _rate_txt if m["per_capita"] else (lambda v: _cval(v, m["unit"], cur))
     steps = [(zero, T("custom.zero"))]
     lo = 0
     for b, col in zip(bounds, shades):
-        steps.append((col, f"{_rate_txt(lo)} – {_rate_txt(b)}" if lo else f"≤ {_rate_txt(b)}"))
+        steps.append((col, f"{fmt_class(lo)} – {fmt_class(b)}" if lo else f"≤ {fmt_class(b)}"))
         lo = b
     if m["no_population"]:
         steps.append((nodata, T("custom.no_population")))
@@ -1233,20 +1267,27 @@ def slide_custom_map(d, m):
         d.bar(s, rx + i * sw, ly, sw - 0.04, 0.16, col)
         d.text(s, rx + i * sw, ly + 0.2, sw - 0.04, 0.3, lab, size=7.5, color=p["muted"])
     ly += 0.62
-    if m.get("national") is not None:
-        d.text(s, rx, ly, rw, 0.3, T("custom.national", value=_rate_txt(m["national"])),
-               size=10.5, bold=True, color=p["ink"])
+    if world:
+        head = T("custom.countries", count=_L.num(m["countries"]),
+                 value=_cval(m["mapped"], m["unit"], cur), measure=measure.lower())
+    elif m.get("national") is not None:
+        head = T("custom.national", value=_rate_txt(m["national"]))
+    else:
+        head = None
+    if head:
+        d.text(s, rx, ly, rw, 0.3, head, size=10.5, bold=True, color=p["ink"])
         ly += 0.38
 
     prev = (d.meta.get("comparison_labels") or {}).get("previous_period")
     with_ref = prev and any(t["compare"] is not None for t in m["top"])
-    cols = [T("custom.department"), measure]
+    cols = [T("custom.country" if world else "custom.department"), measure]
     if m["per_capita"]:
-        cols.append(T("custom.per_100k_short"))
+        cols.append(T("custom.per_million_short" if world else "custom.per_100k_short"))
     if with_ref:
         cols.append(T("custom.change"))
     widths = [0.46] + [0.54 / (len(cols) - 1)] * (len(cols) - 1)
-    d.text(s, rx, ly, rw, 0.26, T("custom.top"), size=8.5, bold=True, color=p["muted"])
+    d.text(s, rx, ly, rw, 0.26, T("custom.top_countries" if world else "custom.top"),
+           size=8.5, bold=True, color=p["muted"])
     ly += 0.3
     rh = min(0.27, (bottom - ly - 0.3) / 11)
     xx = rx
@@ -1258,7 +1299,8 @@ def slide_custom_map(d, m):
     ly += rh
     d.bar(s, rx, ly - 0.02, rw, 0.008, p["hairline"])
     for i, t in enumerate(m["top"]):
-        cells = [f"{t['code']} {t['name']}", _cval(t["value"], m["unit"], cur)]
+        label = _area_name(t) if world else f"{t['code']} {_area_name(t)}"
+        cells = [label, _cval(t["value"], m["unit"], cur)]
         if m["per_capita"]:
             cells.append(_rate_txt(t["rate"]))
         if with_ref:
@@ -1274,15 +1316,24 @@ def slide_custom_map(d, m):
             xx += rw * wf
         ly += rh
 
-    cap = [T("custom.map_sources", year=m["population_year"])]
-    if m["outside"]:
-        cap.append(T("custom.outside", count=_cval(m["outside"], m["unit"], cur)))
+    if world:
+        cap = [T("custom.world_sources")]
+        if m["per_capita"]:
+            cap.append(T("custom.world_population", year=m["population_year"]))
+        cap.append(T("custom.world_overseas"))
+        if m["outside"]:
+            cap.append(T("custom.outside_world", count=_cval(m["outside"], m["unit"], cur)))
+    else:
+        cap = [T("custom.map_sources", year=m["population_year"])]
+        if m["outside"]:
+            cap.append(T("custom.outside", count=_cval(m["outside"], m["unit"], cur)))
     cap.append(_ccaption(m))
     d.text(s, M, FOOT - 0.66, W - 2 * M, 0.6, " ".join(cap), size=8, color=p["muted"])
 
 
 CUSTOM_SLIDES = {"kpi": slide_custom_kpi, "bars": slide_custom_bars,
-                 "table": slide_custom_table, "map_fr": slide_custom_map}
+                 "table": slide_custom_table, "map_fr": slide_custom_map,
+                 "map_world": slide_custom_map}
 
 
 def _gen_custom(m):
