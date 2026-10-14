@@ -49,8 +49,9 @@ FOOT = 6.95
 
 # Where the closing slide sends the reader. The UTM tags let CINQ count the
 # visits that come from a deck.
-CINQ_URL = ("https://www.agencecinq.com/shopify/maintenance/"
+CINQ_URL = ("https://www.agencecinq.com/"
             "?utm_source=trente&utm_medium=deck&utm_campaign=monthly-report")
+CINQ_EMAIL = "contact@agencecinq.com"
 
 NBSP = " "
 
@@ -166,8 +167,6 @@ class Deck:
                 para.space_before = Pt(item["space_before"])
             r = para.add_run()
             r.text = item["t"]
-            if item.get("link"):
-                r.hyperlink.address = item["link"]
             f = r.font
             f.size = Pt(item.get("size", size))
             f.bold = item.get("bold", bold)
@@ -903,11 +902,16 @@ def slide_cinq(d):
                 {"t": T(f"cinq.{key}_text"), "size": 11.5, "color": muted,
                  "space_before": 6}], spacing=1.15)
 
-    d.text(s, M, 5.6, W - 2 * M, 0.9,
-           [{"t": T("cinq.cta"), "size": 18, "bold": True, "color": ink,
-             "link": CINQ_URL},
-            {"t": T("cinq.site"), "size": 13, "color": p["invert_accent"],
-             "link": CINQ_URL, "space_before": 4}])
+    # The links sit on the text boxes, not on the text: a linked run takes the
+    # theme's hyperlink colour, blue, unreadable on this background.
+    site = d.text(s, M, 5.45, 6.0, 0.72,
+                  [{"t": T("cinq.cta"), "size": 18, "bold": True, "color": ink},
+                   {"t": T("cinq.site"), "size": 13, "color": p["invert_accent"],
+                    "space_before": 4}])
+    site.click_action.hyperlink.address = CINQ_URL
+    mail = d.text(s, M, 6.2, 6.0, 0.3, CINQ_EMAIL, size=13,
+                  color=p["invert_accent"])
+    mail.click_action.hyperlink.address = f"mailto:{CINQ_EMAIL}"
     d.footer(s, dark=True)
 
 

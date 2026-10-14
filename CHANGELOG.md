@@ -52,8 +52,8 @@ plan stored in each shop's metafield carry over.
   inhabitants are an option. Outlines (Natural Earth, public domain) and World
   Bank populations are bundled in `assets/world-countries.json`, rebuilt with
   `tools/build_world_map.py`.
-- A closing slide on Trente and CINQ: where the data goes, and a link to reach
-  CINQ.
+- A closing slide on Trente and CINQ: where the data goes, a link to
+  agencecinq.com and the address contact@agencecinq.com.
 - SKILL.md checks python-pptx before collecting any data, and stops with one
   sentence when the environment cannot install it. The builder exits with an
   install hint instead of a traceback, and warns when the logo is left out for
