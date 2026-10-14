@@ -62,7 +62,8 @@ All notable changes to this project are documented here. The format follows
 ### Changed
 
 - The plugin is now called Trente. It installs as `trente@agencecinq`, and the
-  skill lives in `skills/trente`. Reinstall it under the new name; the context
+  skill lives in `skills/trente`. The repository moved to `agencecinq/trente`:
+  add the marketplace with `/plugin marketplace add agencecinq/trente`. Reinstall it under the new name; the context
   and plan stored in the shop metafield `shopify_report.context` are kept.
 - The cover says the deck was generated with Trente.
 - **The plan is now monthly.** Each workstream sets one target for next month,

@@ -72,7 +72,7 @@ The repository is its own plugin marketplace. In Claude Code, add it and then
 install the plugin:
 
 ```
-/plugin marketplace add agencecinq/shopify-monthly-report
+/plugin marketplace add agencecinq/trente
 /plugin install trente@agencecinq
 ```
 

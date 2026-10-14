@@ -76,7 +76,7 @@ Le dépôt est sa propre marketplace de plugins. Dans Claude Code, ajoutez-la pu
 installez le plugin :
 
 ```
-/plugin marketplace add agencecinq/shopify-monthly-report
+/plugin marketplace add agencecinq/trente
 /plugin install trente@agencecinq
 ```
 
