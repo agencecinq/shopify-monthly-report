@@ -15,8 +15,11 @@ import sys
 import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INCLUDE = [".claude-plugin/plugin.json", ".claude-plugin/icon.png", "skills",
-           "LICENSE", "README.md", "README.fr.md"]
+# The manifest folder goes in whole, listing icon included, except the
+# marketplace file, which only the repository needs. Image paths are not
+# spelt out here: the directory holds any file that names a bundled image.
+INCLUDE = [".claude-plugin", "skills", "LICENSE", "README.md", "README.fr.md"]
+SKIP_NAMES = {"marketplace.json"}
 SKIP_DIRS = {"__pycache__", ".pytest_cache"}
 SKIP_EXT = {".pyc", ".pptx"}
 
@@ -30,7 +33,8 @@ def files():
         for base, dirs, names in os.walk(path):
             dirs[:] = sorted(d for d in dirs if d not in SKIP_DIRS)
             for name in sorted(names):
-                if os.path.splitext(name)[1] in SKIP_EXT or name.startswith("."):
+                if (os.path.splitext(name)[1] in SKIP_EXT or name.startswith(".")
+                        or name in SKIP_NAMES):
                     continue
                 yield os.path.relpath(os.path.join(base, name), ROOT)
 
